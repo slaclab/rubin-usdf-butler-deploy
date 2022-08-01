@@ -1,0 +1,23 @@
+
+resources:
+- ns.yaml
+# cnpg
+#- ../../base/cnpg
+- endpoints-patch.yaml
+- cnpg-butler-database.yaml
+
+secretGenerator:
+- name: usdf-butler-butler-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/username
+  - etc/.secrets/password
+
+#nameSuffix: -dev
+namespace: prod
+commonLabels:
+  env: prod
+  app: butler
+  namespace: prod
+
