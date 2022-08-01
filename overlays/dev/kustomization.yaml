@@ -1,0 +1,28 @@
+
+resources:
+- ns.yaml
+# cnpg
+- ../../base/cnpg
+- endpoints-patch.yaml
+
+secretGenerator:
+- name: usdf-butler-butler-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/username
+  - etc/.secrets/password
+
+#nameSuffix: -dev
+namespace: dev
+commonLabels:
+  env: dev
+  app: butler
+  namespace: dev
+
+#configMapGenerator:
+#- name: telegraf-postgres
+#  files:
+#  - telegraf.conf
+#  - postgresql_custom_data.conf 
+

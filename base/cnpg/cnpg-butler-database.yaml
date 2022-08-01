@@ -14,7 +14,7 @@ spec:
       secret:
         name: usdf-butler-butler-creds
   
-  imageName: ghcr.io/cloudnative-pg/postgresql@sha256:951f63dbdc353451023c689eec927c602c77fc897e54b99fb74d0296c00bed7c
+  imageName:  ghcr.io/cloudnative-pg/postgresql:14.4-7
 
   nodeMaintenanceWindow:
     inProgress: false
@@ -25,23 +25,23 @@ spec:
       shared_buffers: 16GB
       pg_stat_statements.max: "10000"
       pg_stat_statements.track: all
-      ldap:
-        scheme: ldaps
-        server: 'ldap-unix.slac.stanford.edu'
-        # tls: true
-        port: 636
-        bindAsAuth:
-          prefix: 'uid='
-          suffix: ',ou=Accounts,dc=slac,dc=stanford,dc=edu'
+    ldap:
+      scheme: ldaps
+      server: 'ldap-unix.slac.stanford.edu'
+      # tls: true
+      port: 636
+      bindAsAuth:
+        prefix: 'uid='
+        suffix: ',ou=Accounts,dc=slac,dc=stanford,dc=edu'
 
 
   resources:
     requests:
-      memory: 64Gi
-      cpu: 16
+      memory: 8Gi
+      cpu: 1
     limits:
-      memory: 128Gi
-      cpu: 32
+      memory: 64Gi
+      cpu: 2 
 
   storage:
     storageClass: wekafs--sdf-k8s01
@@ -97,6 +97,4 @@ spec:
                 values:
                 - pooler
             topologyKey: "kubernetes.io/hostname"
-
-
 ---
