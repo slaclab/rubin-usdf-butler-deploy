@@ -1,0 +1,27 @@
+#namespace: postgres
+namespace: database
+
+resources:
+- namespace.yaml
+#- huge-pages-fix.yaml
+#- zalando-postgres.yaml
+#- telegraf.yaml
+# cnpg
+- cnpg-butler-database.yaml
+- endpoints-patch.yaml
+
+secretGenerator:
+- name: usdf-butler-butler-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/username
+  - etc/.secrets/password
+
+
+#configMapGenerator:
+#- name: telegraf-postgres
+#  files:
+#  - telegraf.conf
+#  - postgresql_custom_data.conf 
+

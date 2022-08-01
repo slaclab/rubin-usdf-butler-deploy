@@ -1,0 +1,47 @@
+# NOTE this shoudl be ran INSIDE the vcluster
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: cluster-admin
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: system:masters
+- kind: User
+  name: ytl@slac.stanford.edu
+  apiGroup: rbac.authorization.k8s.io
+- kind: User
+  name: ovlasova@slac.stanford.edu
+  apiGroup: rbac.authorization.k8s.io
+- kind: User
+  name: yuyiguo@slac.stanford.edu
+  apiGroup: rbac.authorization.k8s.io
+- kind: User
+  name: dollinge@slac.stanford.edu
+  apiGroup: rbac.authorization.k8s.io
+- kind: User
+  name: bjwhite@slac.stanford.edu
+  apiGroup: rbac.authorization.k8s.io
+- kind: User
+  name: dspeck@slac.stanford.edu
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: admin
+subjects:
+- kind: User
+  name: ppascual@slac.stanford.edu
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: admin
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: usdf-butler-pooler-lb
+  namespace: postgres
+  annotations:
+    metallb.universe.tf/address-pool: sdf-dmz
+spec:
+  internalTrafficPolicy: Cluster
+  ports:
+  - name: usdf-butler-pooler
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    connection-pooler: usdf-butler-pooler
+  type: LoadBalancer

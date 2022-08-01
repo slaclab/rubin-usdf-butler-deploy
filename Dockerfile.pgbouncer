@@ -1,0 +1,3 @@
+FROM registry.opensource.zalan.do/acid/pgbouncer:master-22
+
+COPY pgbouncer.ini.tmpl /etc/pgbouncer/pgbouncer.ini.tmpl

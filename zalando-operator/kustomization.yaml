@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: zalando-operator
+resources:
+- namespace.yaml
+- deps/zalando-operator/manifests/configmap.yaml
+- deps/zalando-operator/manifests/operator-service-account-rbac.yaml
+- deps/zalando-operator/manifests/postgres-operator.yaml
+- deps/zalando-operator/manifests/api-service.yaml
