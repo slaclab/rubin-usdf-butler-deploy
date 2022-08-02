@@ -2,7 +2,8 @@
 resources:
 - ns.yaml
 # cnpg
-- ../../base/cnpg
+- cnpg-butler-database.yaml
+- cnpg-butler-pooler.yaml
 - endpoints-patch.yaml
 
 secretGenerator:
