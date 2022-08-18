@@ -20,9 +20,9 @@ apply-zalando: apply-zalando-operator apply-zalando-db
 #apply: apply-zalando
 #	kubectl apply -f service.yaml
 
-pgbouncer:
-	docker build . -f Dockerfile.pgbouncer -t slaclab/pgbouncer:master-22
-	docker push slaclab/pgbouncer:master-22
+cnpg-pgbouncer:
+	docker build . -f Dockerfile.cnpg-pgbouncer -t slaclab/pgbouncer:1.17.0
+	docker push slaclab/pgbouncer:1.17.0
 
 
 

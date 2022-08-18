@@ -28,7 +28,7 @@ spec:
     
       containers:
       - name: pgbouncer
-        #image: my-pgbouncer:latest
+        image: slaclab/pgbouncer:1.17.0
         resources:
           requests:
             cpu: "0.1"
