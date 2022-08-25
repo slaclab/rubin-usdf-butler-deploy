@@ -4,7 +4,7 @@ kind: Cluster
 metadata:
   name: usdf-butler
 spec:
-  instances: 2
+  instances: 1
   primaryUpdateStrategy: unsupervised
 
   bootstrap:
@@ -15,6 +15,9 @@ spec:
         name: usdf-butler-butler-creds
   
   imageName:  ghcr.io/cloudnative-pg/postgresql:14.4-7
+  inheritedMetadata:
+    annotations:
+      prometheus.io/scrape: 'true' 
 
   nodeMaintenanceWindow:
     inProgress: false
@@ -22,7 +25,7 @@ spec:
 
   postgresql:
     parameters:
-      shared_buffers: 16GB
+      shared_buffers: 2GB
       pg_stat_statements.max: "10000"
       pg_stat_statements.track: all
 #    ldap:
@@ -40,7 +43,7 @@ spec:
       memory: 8Gi
       cpu: 8
     limits:
-      memory: 64Gi
+      memory: 16Gi
       cpu: 16 
 
   storage:
