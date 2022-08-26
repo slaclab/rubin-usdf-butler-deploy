@@ -6,11 +6,3 @@ metadata:
     metallb.universe.tf/address-pool: sdf-dmz
 spec:
   type: LoadBalancer
-  internalTrafficPolicy: Cluster
-  ports:
-  - name: pgbouncer
-    port: 5432
-    protocol: TCP
-    targetPort: 5432
-  selector:
-    cnpg.io/poolerName: usdf-butler-pooler-rw
