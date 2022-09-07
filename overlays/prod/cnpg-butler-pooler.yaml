@@ -6,14 +6,14 @@ metadata:
 spec:
   cluster:
     name: usdf-butler
-  instances: 3
+  instances: 2
   type: rw
 
   pgbouncer:
     poolMode: session
     parameters:
       max_client_conn: "1000"
-      default_pool_size: "10"
+      default_pool_size: "30"
       log_connections: "1"
       log_disconnections: "1"
       idle_transaction_timeout: "0"
@@ -28,6 +28,8 @@ spec:
     metadata:
       labels:
         app: pooler
+      annotations:
+        prometheus.io/scrape: 'true'
     
     spec:
     
