@@ -5,6 +5,7 @@ resources:
 #- ../../base/cnpg
 - cnpg-butler-database.yaml
 - cnpg-butler-pooler.yaml
+- backup.yaml
 
 #patches:
 #- endpoints-patch.yaml
@@ -16,8 +17,13 @@ secretGenerator:
   files:
   - etc/.secrets/username
   - etc/.secrets/password
+- name: s3-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/client-id
+  - etc/.secrets/client-secret
 
-#nameSuffix: -dev
 namespace: prod
 commonLabels:
   env: prod
