@@ -1,7 +1,7 @@
 
 This repo holds the Rubin USDF Butler Postgres infrastructure kubernetes manifests.
 
-We use the cloudnative-pg operator in order to support a managed postgres service on our own infrastructure.
+We use the [cloudnative-pg operator](https://cloudnative-pg.io/) in order to support a managed postgres service on our own infrastructure.
 
 We need different kustomize overlays to present the postgres environments. For lack of imagination, we currently have a `prod` and `dev` environment.
 
@@ -31,4 +31,22 @@ cd overlays/$ENVIRONMENT
 make apply
 ```
 
+## Common Tasks
 
+requires installation of the cnpg [kubectl plugin](https://cloudnative-pg.io/documentation/1.17/cnpg-plugin/#cloudnativepg-plugin)
+
+### Get status of cluster
+
+```
+kubectl cnpg status usdf-butler
+```
+
+### Promote a replica to primary
+
+```
+kubectl cnpg promote usdf-butler
+```
+
+## Monitoring
+
+We utilise the built in prometheus monitoring of cnpg and have a [live dashboard](https://grafana.slac.stanford.edu/d/z7FCA4Nnk/cloud-native-postgresql).
