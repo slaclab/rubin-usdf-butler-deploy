@@ -39,6 +39,8 @@ spec:
       shared_buffers: 16GB
       pg_stat_statements.max: "10000"
       pg_stat_statements.track: all
+      max_connections: "200"
+
 #      ldap:
 #        scheme: ldaps
 #        server: 'ldap-unix.slac.stanford.edu'
