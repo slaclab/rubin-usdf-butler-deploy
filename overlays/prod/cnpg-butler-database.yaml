@@ -5,6 +5,7 @@ metadata:
   name: usdf-butler
 spec:
   backup:
+    retentionPolicy: "15d"
     barmanObjectStore:
       destinationPath: s3://rubin-usdf-butler
       endpointURL: http://sdfk8s001.slac.stanford.edu:9000
