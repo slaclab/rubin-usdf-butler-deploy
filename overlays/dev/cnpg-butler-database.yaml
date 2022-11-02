@@ -14,7 +14,9 @@ spec:
       secret:
         name: usdf-butler-butler-creds
   
-  imageName:  ghcr.io/cloudnative-pg/postgresql:14.4-7
+  imageName:  us-central1-docker.pkg.dev/prompt-proto/prompt/cnpg-postgresql:14
+  imagePullSecrets:
+    - name: regcred
   inheritedMetadata:
     annotations:
       prometheus.io/scrape: 'true' 
