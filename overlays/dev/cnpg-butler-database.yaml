@@ -33,6 +33,8 @@ spec:
       work_mem: 160MB
       log_disconnections: on
       log_duration: on
+      log_statement: all
+      log_min_duration_statement: 250ms
 #    ldap:
 #      scheme: ldaps
 #      server: 'ldap-unix.slac.stanford.edu'
