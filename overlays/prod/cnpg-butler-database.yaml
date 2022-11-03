@@ -42,6 +42,8 @@ spec:
       pg_stat_statements.track: all
       max_connections: "200"
       work_mem: 256MB
+      log_disconnections: on
+      log_duration: on
 
 #      ldap:
 #        scheme: ldaps
