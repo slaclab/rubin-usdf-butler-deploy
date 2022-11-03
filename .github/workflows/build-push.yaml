@@ -17,8 +17,8 @@ on:
     
 
 env:
-  REGISTRY: gcr.io
-  IMAGE_NAME: "cnpg-postgresql"
+  REGISTRY: ghcr.io
+  IMAGE_NAME: "slaclab/cnpg-postgresql"
 
 jobs:
   push_to_registry:
