@@ -30,6 +30,9 @@ spec:
       shared_buffers: 2GB
       pg_stat_statements.max: "10000"
       pg_stat_statements.track: all
+      work_mem: 160MB
+      log_disconnections: on
+      log_duration: on
 #    ldap:
 #      scheme: ldaps
 #      server: 'ldap-unix.slac.stanford.edu'
