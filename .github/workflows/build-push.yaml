@@ -47,7 +47,7 @@ jobs:
             type=ref,event=tag
             type=ref,event=branch
             type=ref,event=pr,prefix=pr-
-            type=edge,branch="main"
+            type=edge,branch=main
             type=raw,14
       
       - name: Build and push Docker image
