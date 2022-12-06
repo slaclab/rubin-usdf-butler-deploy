@@ -6,6 +6,7 @@ resources:
 - cnpg-butler-database.yaml
 - cnpg-butler-pooler.yaml
 - backup.yaml
+- cnpg-butler-pooler-service.yaml
 
 #patches:
 #- endpoints-patch.yaml
