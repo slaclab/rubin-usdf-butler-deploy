@@ -13,7 +13,7 @@ spec:
     poolMode: session
     parameters:
       max_client_conn: "1000"
-      default_pool_size: "100"
+      default_pool_size: "500"
       log_connections: "1"
       log_disconnections: "1"
       idle_transaction_timeout: "0"
@@ -56,4 +56,3 @@ spec:
             topologyKey: "kubernetes.io/hostname"
 
 
----
