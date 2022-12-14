@@ -6,14 +6,14 @@ metadata:
 spec:
   cluster:
     name: usdf-butler
-  instances: 3
+  instances: 1
   type: rw
 
   pgbouncer:
     poolMode: transaction
     parameters:
       max_client_conn: "1000"
-      default_pool_size: "10"
+      default_pool_size: "3"
       log_connections: "1"
       log_disconnections: "1"
       idle_transaction_timeout: "0"
