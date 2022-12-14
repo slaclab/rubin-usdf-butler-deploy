@@ -28,6 +28,8 @@ spec:
     metadata:
       labels:
         app: pooler
+      annotations:
+        prometheus.io/scrape: 'true'
     
     spec:
     
