@@ -4,6 +4,7 @@ resources:
 # cnpg
 - cnpg-butler-database.yaml
 - cnpg-butler-pooler.yaml
+- endpoints-patch.yaml
 
 ### hmm... the endpoint doens't exist here for kustomize to do anythign abot it; add into Makefile?
 #patchesStrategicMerge:
