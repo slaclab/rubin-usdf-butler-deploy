@@ -13,7 +13,7 @@ spec:
     poolMode: session
     parameters:
       max_client_conn: "1000"
-      default_pool_size: "500"
+      default_pool_size: "800"
       log_connections: "1"
       log_disconnections: "1"
       idle_transaction_timeout: "0"
