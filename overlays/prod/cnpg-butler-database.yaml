@@ -45,7 +45,7 @@ spec:
       log_statement: all
       log_temp_files: "1"
       maintenance_work_mem: 2GB
-      max_connections: "500"
+      max_connections: "1000"
       max_wal_size: 16GB
       min_wal_size: 4GB
       pg_stat_statements.max: "10000"
