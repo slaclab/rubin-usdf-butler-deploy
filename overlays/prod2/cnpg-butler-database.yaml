@@ -7,18 +7,31 @@ spec:
   instances: 2
   primaryUpdateStrategy: unsupervised
 
-  bootstrap:
-    pg_basebackup:
-      source: source-db
+  #bootstrap:
+  #  pg_basebackup:
+  #    source: source-db
+  
+  backup:
+    retentionPolicy: "15d"
+    barmanObjectStore:
+      destinationPath: s3://rubin-usdf-butler
+      endpointURL: https://s3dfrgw.slac.stanford.edu
+      s3Credentials:
+        accessKeyId:
+          name: s3-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: s3-creds
+          key: ACCESS_SECRET_KEY
 
-  externalClusters:
-    - name: source-db
-      connectionParameters:
-        host: ocio-gpu03.slac.stanford.edu
-        user: streaming_replica
-      password:
-        name: source-db-replica-user
-        key: password
+  #externalClusters:
+  #  - name: source-db
+  #    connectionParameters:
+  #      host: ocio-gpu03.slac.stanford.edu
+  #      user: streaming_replica
+  #    password:
+  #      name: source-db-replica-user
+  #      key: password
   
   imageName: us-central1-docker.pkg.dev/prompt-proto/prompt/cnpg-postgresql:14
   imagePullSecrets:
@@ -26,6 +39,9 @@ spec:
   inheritedMetadata:
     annotations:
       prometheus.io/scrape: 'true'
+
+  monitoring:
+    enablePodMonitor: true
 
   nodeMaintenanceWindow:
     inProgress: false

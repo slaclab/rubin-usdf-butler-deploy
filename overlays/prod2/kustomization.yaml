@@ -5,7 +5,8 @@ resources:
 #- ../../base/cnpg
 - cnpg-butler-database.yaml
 - cnpg-butler-pooler.yaml
-#- backup.yaml
+- backup.yaml
+- cnpg-butler-pooler-service.yaml
 #- cnpg-butler-pooler-service.yaml
 
 #patches:
@@ -26,8 +27,4 @@ secretGenerator:
   - ACCESS_SECRET_KEY=etc/.secrets/client-secret
 
 namespace: prod2
-commonLabels:
-  env: prod2
-  app: butler
-  namespace: prod2
 

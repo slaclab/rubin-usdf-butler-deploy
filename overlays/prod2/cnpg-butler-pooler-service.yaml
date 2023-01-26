@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: usdf-butler-pooler-rw-internal
+  name: usdf-butler2-pooler-rw-internal
   namespace: prod
   annotations:
     metallb.universe.tf/address-pool: sdf-services
@@ -14,13 +14,13 @@ spec:
     protocol: TCP
     targetPort: 5432
   selector:
-    cnpg.io/poolerName: usdf-butler-pooler-rw
+    cnpg.io/poolerName: usdf-butler2-pooler-rw
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: usdf-butler-pooler-ro-internal
+  name: usdf-butler2-pooler-ro-internal
   namespace: prod
   annotations:
     metallb.universe.tf/address-pool: sdf-services
@@ -39,12 +39,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: usdf-butler-pooler-transaction-rw
+  name: usdf-butler2-pooler-transaction-rw
   namespace: prod
   annotations:
     metallb.universe.tf/address-pool: sdf-services
 spec:
   type: LoadBalancer
+  loadBalancerIP: 172.24.5.217
   internalTrafficPolicy: Cluster
   ports:
   - name: pgbouncer
@@ -52,4 +53,23 @@ spec:
     protocol: TCP
     targetPort: 5432
   selector:
-    cnpg.io/poolerName: usdf-butler-pooler-transaction-rw
+    cnpg.io/poolerName: usdf-butler2-pooler-transaction-rw
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: usdf-butler2-pooler-rw
+  namespace: database
+  annotations:
+    metallb.universe.tf/address-pool: sdf-dmz
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 134.79.23.203
+  internalTrafficPolicy: Cluster
+  ports:
+  - name: pgbouncer
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    cnpg.io/poolerName: usdf-butler2-pooler-rw
