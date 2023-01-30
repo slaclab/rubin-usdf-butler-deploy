@@ -66,9 +66,30 @@ Add these the cnpg-database yaml.  Update `targetTime` value to the correct rest
               maxParallel: 8
 ```
 
+## Alternate Restore Method
+
+If restoring from the object store directly fails the below method can be used to restore to a Virtual Machine.
+
+* Install Postgres and Barman on a VM.  Postgres must match the version you want to restore too.
+* Configure Barman for the restore and to point to the object store
+* Configure and bootstrap a new cluster.  Follow the instructions [here](https://cloudnative-pg.io/documentation/1.18/bootstrap/#bootstrap-from-a-live-cluster-pg_basebackup).  Example config below.
+
+```
+  externalClusters:
+    - name: source-db
+      connectionParameters:
+        host: ocio-gpu03.slac.stanford.edu
+        user: streaming_replica
+      password:
+        name: source-db-replica-user
+        key: password
+```
+* This will run restore pods.  Note to remove the bootstrap section once restore is complete.
+  
+
+
 
 ## WAL Archiving
-
 
 To check status of the WAL Archiving enter `kubectl cnpg status usdf-butler2 -n prod2` replacing the cluster names and the namespace.  Note that WAL archiving is Ok.  The first and last WAL archives are detailed below.
 
