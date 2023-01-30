@@ -6,7 +6,7 @@ Table of Contents
 =================
 
 * `Backup and Restore`_
-* `WAL Archiving` _
+* `WAL Archiving`_
 
 Backup and Restore
 ==================
@@ -76,7 +76,7 @@ Setting up New Backups
 WAL Archiving
 ==========
 
-To check status of the WAL Archiving perform the following.  Note that WAL archiving is Ok.  The first and last WAL archives are detailed below.
+To check status of the WAL Archiving enter `kubectl cnpg status usdf-butler2 -n prod2` replacing the cluster names and the namespace.  Note that WAL archiving is Ok.  The first and last WAL archives are detailed below.
 
 .. code-block:: sh
     kubectl cnpg status usdf-butler2 -n prod2
