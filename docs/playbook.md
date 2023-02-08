@@ -6,6 +6,24 @@
 * [Backup and Restore](#backup-and-restore)
 * [WAL Archiving](#wal-archiving)
 
+
+## Database Administration Best Practices
+
+### Weekly Activities
+* Check Backups
+* Normal Vacuum - scans tables of database and deletes dead rows, old row versions
+* Vacuum Analyze - Update usage stats and query plans
+
+### Monthly Activities
+* Test Restore
+
+### Ad Hoc Activities
+* Vacuum Full - Run as needed if notice bloat.  Will be downtime.  Create copies of full table.  Avoid until table gets very bloated.  Database is very large to what dataset should look like.
+* Reindex after schema or large data changes
+* Vacuum Analyze - pdate usage stats and query plans
+* PGBench
+
+
 ## Backup and Restore
 
 CloudNativePG supports online/hot backup of Postgres through continous backpu and WAL archiving.  Backups is based on the Barman tool.  Full info [here](https://cloudnative-pg.io/documentation/1.18/backup_recovery)  Backups are configured on each Postgres cluster to back up to an S3 bucket in Ceph.  WAL logs are also archived to the same S3 bucket in Ceph.  An example of the configuration in prod is below.  Backups are retained for 15 days.  Please note that older backups are retained if a successful backup has not been performed in the last 15 days.
