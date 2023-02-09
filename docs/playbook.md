@@ -9,6 +9,14 @@
 
 ## Database Administration Best Practices
 
+## Monitoring
+* Alert on log file Errors to Slack channel.  Examples are disk space filled up.  Failed archive WALs. Use loki alerting
+* Failed backups.  Need way to alert.  Maybe chart for first recovery.
+* CPU Usage, Memory Usage, Database Size, Weka Disk Usage
+* Blocked Queries
+* Replicas down
+* User Simulated queries through PgBouncer
+
 ### Weekly Activities
 * Check Backups
 * Normal Vacuum - scans tables of database and deletes dead rows, old row versions
