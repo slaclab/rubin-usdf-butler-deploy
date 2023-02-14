@@ -5,6 +5,37 @@ We use the [cloudnative-pg operator](https://cloudnative-pg.io/) in order to sup
 
 We need different kustomize overlays to present the postgres environments. For lack of imagination, we currently have a `prod` and `dev` environment.
 
+
+# Deployment
+
+As we are reliant on kubernetes for the infrastructure, we assume that you already have a suitable KUBECONFIG configured.
+
+Deployment comes in two parts:
+
+## Deploy the CNPG Operator
+
+The cnpg operator will install into `cnpg-system` namespace.
+
+```
+CNPG_VERSION=1.18 CNPG_VERSION_MINOR=1 make update-cnpg-operator
+make apply
+```
+
+In the above, we define through environment variables the version of the operator we wish to install/update. This will literally fetch the manifest and dump the contents into the file `cnpg-operator.yaml`. ``make apply  will then use kustomize to apply that manifest onto kubernets to install the operator.
+
+We use kustomize rather than helm for the operator and cnpg database installs to keep complete revision control our deployments. As such, if you make changes to the butler environment, please commit and push your changes.
+
+## Deploy the appropriate overlay
+
+```
+cd overlays/$ENVIRONMENT
+make apply
+```
+
+Following a similar pattern to the operator install, we have numerous environment overlay folders that keep instances of the database - `prod` and `dev` being the obvious ones.
+
+Note that we recommend unique namespaces as well as different cnpg cluster names for each overlay to more clearly separate instances (and to provide clearer monitoring).
+
 # Configuration Changes
 
 To perform a configuration change or postgres image perform the following.
@@ -30,36 +61,9 @@ make apply
 
 The vault login command is `vault login -method=ldap username=$USER` replacing with your ldap username.
 
+# Common Tasks
 
-# Deployment
-
-As we are reliant on kubernetes for the infrastructure, we assume that you already have a suitable KUBECONFIG configured.
-
-Deployment comes in two parts:
-
-## Deploy the CNPG Operator
-
-The cnpg operator will install into `cnpg-system` namespace.
-
-```
-CNPG_VERSION=1.16 CNPG_VERSION_MINOR=0 make update-cnpg-operator
-make apply-cnpg-operator
-```
-
-In the above, we define through environment variables the version of the operator we wish to install/update. This will literally fetch the manifest and dump the contents into `cnpg-operator.yaml`. `make apply-cnpg-operator` will then use kustomize to apply that manifest onto kubernets to install the operator.
-
-Note that in order to hep revision control our operator deployment, we also commit/push changes for the `cnpg-operator.yaml`.
-
-## Deploy the appropriate overlay
-
-```
-cd overlays/$ENVIRONMENT
-make apply
-```
-
-## Common Tasks
-
-requires installation of the cnpg [kubectl plugin](https://cloudnative-pg.io/documentation/1.17/cnpg-plugin/#cloudnativepg-plugin)
+Requires installation of the cnpg [kubectl plugin](https://cloudnative-pg.io/documentation/1.17/cnpg-plugin/#cloudnativepg-plugin)
 
 ### Get status of cluster
 
@@ -72,6 +76,14 @@ kubectl cnpg status usdf-butler
 ```
 kubectl cnpg promote usdf-butler
 ```
+
+### Destroy an instance
+
+```
+kubectl cnpg destroy usdf-butler 1
+```
+
+where 1 is the ordinal number of the instance
 
 ## Pg Sphere Extension
 
