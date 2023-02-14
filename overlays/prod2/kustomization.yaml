@@ -1,0 +1,30 @@
+
+resources:
+- ns.yaml
+# cnpg
+#- ../../base/cnpg
+- cnpg-butler-database.yaml
+- cnpg-butler-pooler.yaml
+- backup.yaml
+- cnpg-butler-pooler-service.yaml
+#- cnpg-butler-pooler-service.yaml
+
+#patches:
+#- endpoints-patch.yaml
+
+secretGenerator:
+- name: usdf-butler-butler-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/username
+  - etc/.secrets/password
+- name: s3-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - ACCESS_KEY_ID=etc/.secrets/client-id
+  - ACCESS_SECRET_KEY=etc/.secrets/client-secret
+
+namespace: prod2
+

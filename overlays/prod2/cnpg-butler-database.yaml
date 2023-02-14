@@ -1,0 +1,79 @@
+
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: usdf-butler2
+spec:
+  instances: 2
+  primaryUpdateStrategy: unsupervised
+
+  #bootstrap:
+  #  pg_basebackup:
+  #    source: source-db
+  
+  backup:
+    retentionPolicy: "15d"
+    barmanObjectStore:
+      destinationPath: s3://rubin-usdf-butler
+      endpointURL: https://s3dfrgw.slac.stanford.edu
+      s3Credentials:
+        accessKeyId:
+          name: s3-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: s3-creds
+          key: ACCESS_SECRET_KEY
+
+  #externalClusters:
+  #  - name: source-db
+  #    connectionParameters:
+  #      host: ocio-gpu03.slac.stanford.edu
+  #      user: streaming_replica
+  #    password:
+  #      name: source-db-replica-user
+  #      key: password
+  
+  imageName: us-central1-docker.pkg.dev/prompt-proto/prompt/cnpg-postgresql:14
+  imagePullSecrets:
+    - name: regcred
+  inheritedMetadata:
+    annotations:
+      prometheus.io/scrape: 'true'
+
+  monitoring:
+    enablePodMonitor: true
+
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
+
+  postgresql:
+    parameters:
+      log_disconnections: on
+      log_duration: on
+      log_min_duration_statement: 250ms
+      log_statement: all
+      log_temp_files: "1"
+      maintenance_work_mem: 2GB
+      max_connections: "1000"
+      max_wal_size: 16GB
+      min_wal_size: 4GB
+      pg_stat_statements.max: "10000"
+      pg_stat_statements.track: all
+      random_page_cost: "1.1"
+      shared_buffers: 16GB
+      work_mem: 160MB
+
+  resources:
+    requests:
+      memory: 64Gi
+      cpu: 8
+    limits:
+      memory: 128Gi
+      cpu: 32
+
+  storage:
+    storageClass: wekafs--sdf-k8s01
+    size: 1500Gi
+
+
