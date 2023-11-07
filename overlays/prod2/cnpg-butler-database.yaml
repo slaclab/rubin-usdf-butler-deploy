@@ -72,6 +72,6 @@ spec:
 
   storage:
     storageClass: wekafs--sdf-k8s01
-    size: 1500Gi
+    size: 3000Gi
 
 
