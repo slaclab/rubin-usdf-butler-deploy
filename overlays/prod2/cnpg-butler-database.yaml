@@ -53,21 +53,21 @@ spec:
       log_statement: all
       log_temp_files: "1"
       maintenance_work_mem: 2GB
-      max_connections: "1000"
+      max_connections: "3000"
       max_wal_size: 16GB
       min_wal_size: 4GB
       pg_stat_statements.max: "10000"
       pg_stat_statements.track: all
       random_page_cost: "1.1"
-      shared_buffers: 16GB
+      shared_buffers: 32GB
       work_mem: 160MB
 
   resources:
     requests:
-      memory: 64Gi
+      memory: 128Gi
       cpu: 8
     limits:
-      memory: 128Gi
+      memory: 256Gi
       cpu: 32
 
   storage:
