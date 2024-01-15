@@ -5,21 +5,14 @@ metadata:
   name: usdf-butler3
   namespace: prod2
 spec:
-  instances: 1
+  instances: 2
   primaryUpdateStrategy: unsupervised
 
-  bootstrap:
-    recovery:
-      source: usdf-butler2
-      recoveryTarget:
-        #backupID: 20240103T000001
-        targetTime: "2024-01-03 05:12:00.00000+02"
-        #targetTime: "2024-01-03T03:12:00Z"
 
-  externalClusters:
-  - name: usdf-butler2
+  backup:
+    retentionPolicy: "15d"
     barmanObjectStore:
-      destinationPath: s3://rubin-usdf-butler
+      destinationPath: s3://rubin-usdf-butler3
       endpointURL: https://s3dfrgw.slac.stanford.edu
       s3Credentials:
         accessKeyId:
@@ -28,9 +21,7 @@ spec:
         secretAccessKey:
           name: s3-creds
           key: ACCESS_SECRET_KEY
-      wal:
-        maxParallel: 16
-  
+
   imageName:  ghcr.io/lsst-sqre/cnpg-postgres-images:14.5
   inheritedMetadata:
     annotations:
