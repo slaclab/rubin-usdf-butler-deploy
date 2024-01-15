@@ -1,0 +1,48 @@
+
+--latiss_prompt
+\c ppcentralbutler
+CREATE USER latiss_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE ppcentralbutler TO latiss_prompt;
+GRANT USAGE ON SCHEMA pp_central_repo TO latiss_prompt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_central_repo TO latiss_prompt;
+GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_central_repo TO latiss_prompt;
+
+GRANT USAGE ON SCHEMA pp_dev_central_repo TO latiss_prompt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_dev_central_repo TO latiss_prompt;
+GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_dev_central_repo TO latiss_prompt;
+
+--hsc_prompt
+\c ppcentralbutler
+CREATE USER hsc_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE ppcentralbutler TO hsc_prompt;
+GRANT USAGE ON SCHEMA pp_central_repo TO hsc_prompt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_central_repo TO hsc_prompt;
+GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_central_repo TO hsc_prompt;
+
+GRANT USAGE ON SCHEMA pp_dev_central_repo TO hsc_prompt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_dev_central_repo TO hsc_prompt;
+GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_dev_central_repo TO hsc_prompt;
+
+--lsstcomcam_prompt
+\c ppcentralbutler
+CREATE USER lsstcomcam_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE ppcentralbutler TO lsstcomcam_prompt;
+GRANT USAGE ON SCHEMA pp_central_repo TO lsstcomcam_prompt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_central_repo TO lsstcomcam_prompt;
+GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_central_repo TO lsstcomcam_prompt;
+
+GRANT USAGE ON SCHEMA pp_dev_central_repo TO lsstcomcam_prompt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_dev_central_repo TO lsstcomcam_prompt;
+GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_dev_central_repo TO lsstcomcam_prompt;
+
+--lsstcam_prompt
+\c ppcentralbutler
+CREATE USER hsc_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE ppcentralbutler TO lsstcam_prompt;
+GRANT USAGE ON SCHEMA pp_central_repo TO lsstcam_prompt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_central_repo TO lsstcam_prompt;
+GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_central_repo TO lsstcam_prompt;
+
+GRANT USAGE ON SCHEMA pp_dev_central_repo TO lsstcam_prompt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_dev_central_repo TO lsstcam_prompt;
+GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_dev_central_repo TO lsstcam_prompt;
