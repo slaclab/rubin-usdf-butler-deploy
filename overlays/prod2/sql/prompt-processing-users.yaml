@@ -1,0 +1,23 @@
+--latiss_prompt
+\c lsstdb1
+CREATE USER latiss_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE lsstdb1 TO latiss_prompt;
+GRANT USAGE ON SCHEMA oga TO latiss_prompt;
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA oga TO latiss_prompt;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA oga TO latiss_prompt;
+
+--lsstcomcam_prompt
+\c lsstdb1
+CREATE USER lsstcomcam_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE lsstdb1 TO lsstcomcam_prompt;
+GRANT USAGE ON SCHEMA oga TO lsstcomcam_prompt;
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA oga TO lsstcomcam_prompt;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA oga TO lsstcomcam_prompt;
+
+--lsstcam_prompt
+\c lsstdb1
+CREATE USER lsstcam_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE lsstdb1 TO lsstcam_prompt;
+GRANT USAGE ON SCHEMA oga TO lsstcam_prompt;
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA oga TO lsstcam_prompt;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA oga TO lsstcam_prompt;
