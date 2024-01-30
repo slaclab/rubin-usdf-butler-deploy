@@ -10,12 +10,12 @@ spec:
 
   bootstrap:
     recovery:
-      source: usdf-butler2
+      source: usdf-butler3
 
   externalClusters:
-  - name: usdf-butler2
+  - name: usdf-butler3
     barmanObjectStore:
-      destinationPath: s3://rubin-usdf-butler
+      destinationPath: s3://rubin-usdf-butler3
       endpointURL: https://s3dfrgw.slac.stanford.edu
       s3Credentials:
         accessKeyId:
@@ -30,7 +30,10 @@ spec:
   imageName:  ghcr.io/lsst-sqre/cnpg-postgres-images:14.5
   inheritedMetadata:
     annotations:
-      prometheus.io/scrape: 'true' 
+      prometheus.io/scrape: 'true'
+  
+  monitoring:
+    enablePodMonitor: true
 
   nodeMaintenanceWindow:
     inProgress: false
@@ -63,4 +66,4 @@ spec:
 
   storage:
     storageClass: wekafs--sdf-k8s01
-    size: 3000Gi
+    size: 20000Gi
