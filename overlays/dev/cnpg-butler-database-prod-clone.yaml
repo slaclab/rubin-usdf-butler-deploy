@@ -12,6 +12,8 @@ spec:
     barmanObjectStore:
       destinationPath: s3://rubin-usdf-butler-dev
       endpointURL: https://s3dfrgw.slac.stanford.edu
+      wal:
+        compression: gzip
       s3Credentials:
         accessKeyId:
           key: ACCESS_KEY_ID
@@ -54,7 +56,7 @@ spec:
         max_connections: "1000"
         max_parallel_workers: "32"
         max_replication_slots: "32"
-        max_wal_size: 16GB
+        max_wal_size: 256GB
         max_worker_processes: "32"
         min_wal_size: 4GB
         pg_stat_statements.max: "10000"
