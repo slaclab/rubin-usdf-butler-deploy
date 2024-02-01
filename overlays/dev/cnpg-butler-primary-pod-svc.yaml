@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    cnpg.io/cluster: usdf-butler
+  name: usdf-butler-postgres-direct
+  namespace: dev
+  annotations:
+    metallb.universe.tf/address-pool: sdf-services
+spec:
+  ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    cnpg.io/cluster: usdf-butler
+    role: primary
+  type: LoadBalancer

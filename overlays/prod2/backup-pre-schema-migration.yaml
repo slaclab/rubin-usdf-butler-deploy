@@ -1,0 +1,8 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Backup
+metadata:
+  name: pre-schema-migration-2-5-2025
+  namespace: prod2
+spec:
+  cluster:
+    name: usdf-butler3
