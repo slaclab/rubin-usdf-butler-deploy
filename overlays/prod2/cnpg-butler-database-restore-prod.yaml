@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: usdf-butler
-  namespace: dev
+  namespace: prod2
 spec:
   instances: 1
   primaryUpdateStrategy: unsupervised
@@ -41,8 +41,6 @@ spec:
 
   postgresql:
     parameters:
-      #log_disconnections: on
-      #log_duration: on
       log_min_duration_statement: 250ms
       log_statement: all
       log_temp_files: "1"
