@@ -21,3 +21,12 @@ GRANT CONNECT ON DATABASE lsstdb1 TO lsstcam_prompt;
 GRANT USAGE ON SCHEMA oga TO lsstcam_prompt;
 GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA oga TO lsstcam_prompt;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA oga TO lsstcam_prompt;
+
+--lsstcomcamsim_prompt
+\c lsstdb1
+CREATE USER lsstcomcamsim_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE lsstdb1 TO lsstcomcamsim_prompt;
+GRANT USAGE ON SCHEMA oga TO lsstcomcamsim_prompt;
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA oga TO lsstcomcamsim_prompt;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA oga TO lsstcomcamsim_prompt;
+

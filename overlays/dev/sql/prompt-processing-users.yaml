@@ -46,3 +46,16 @@ GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_central_repo TO lsstcam_promp
 GRANT USAGE ON SCHEMA pp_dev_central_repo TO lsstcam_prompt;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_dev_central_repo TO lsstcam_prompt;
 GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_dev_central_repo TO lsstcam_prompt;
+
+
+--lsstcomcamsim_prompt
+\c ppcentralbutler
+CREATE USER lsstcomcamsim_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE ppcentralbutler TO lsstcomcamsim_prompt;
+GRANT USAGE ON SCHEMA pp_central_repo TO lsstcomcamsim_prompt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_central_repo TO lsstcomcamsim_prompt;
+GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_central_repo TO lsstcomcamsim_prompt;
+
+GRANT USAGE ON SCHEMA pp_dev_central_repo TO lsstcomcamsim_prompt;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pp_dev_central_repo TO lsstcomcamsim_prompt;
+GRANT USAGE, SELECT  ON ALL SEQUENCES IN SCHEMA pp_dev_central_repo TO lsstcomcamsim_prompt;
