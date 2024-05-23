@@ -1,0 +1,20 @@
+
+resources:
+- ns.yaml
+# cnpg
+- cnpg-butler-prompt-database.yaml
+- cnpg-butler-prompt-pooler.yaml
+
+secretGenerator:
+- name: usdf-butler-prompt-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/username
+  - etc/.secrets/password
+
+namespace: prompt-prod
+commonLabels:
+  env: prompt-prod
+  app: butler-prompt
+  namespace: prompt-prod
