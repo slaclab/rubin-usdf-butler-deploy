@@ -58,7 +58,6 @@ spec:
         work_mem: 320MB
         max_slot_wal_keep_size: "100GB"
         wal_compression: "off"
-
        
   resources:
     requests:
