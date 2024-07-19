@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
-  name: usdf-butler-pooler-dc2-transaction-rw
+  name: usdf-butler-dc2-pooler-transaction-rw
 spec:
   cluster:
     name: usdf-butler-dc2

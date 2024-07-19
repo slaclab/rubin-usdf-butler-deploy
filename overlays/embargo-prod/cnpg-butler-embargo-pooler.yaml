@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
-  name: usdf-butler-pooler-embargo-transaction-rw
+  name: usdf-butler-embargo-pooler-transaction-rw
 spec:
   cluster:
     name: usdf-butler-embargo

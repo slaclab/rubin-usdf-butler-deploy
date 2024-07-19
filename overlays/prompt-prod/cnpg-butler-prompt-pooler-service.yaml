@@ -31,6 +31,6 @@ spec:
     protocol: TCP
     targetPort: 5432
   selector:
-    cnpg.io/poolerName: usdf-prompt-butler-pooler-transaction-rw
+    cnpg.io/poolerName: usdf-butler-prompt-pooler-transaction-rw
   sessionAffinity: None
   type: LoadBalancer
