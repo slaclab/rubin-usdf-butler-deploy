@@ -1,5 +1,8 @@
+KUBECTL_DEPLOY_CONTEXT ?= 'usdf-butler-dev'
+SECRET_PATH ?= secret/rubin/usdf-butler-dev/postgres-main
 
-SECRET_PATH ?= secret/rubin/usdf-butler-dev/postgres-embargo
+ensure-context:
+	if [ '$(shell kubectl config current-context)' != $(KUBECTL_DEPLOY_CONTEXT) ]; then echo "Configured deployment context inccorect; expecting $(KUBECTL_DEPLOY_CONTEXT)."; exit 1; fi
 
 get-secrets-from-vault:
 	mkdir -p etc/.secrets/
@@ -16,6 +19,4 @@ run-kustomize:
 
 dump: get-secrets-from-vault run-kustomize clean-secrets
 
-apply: get-secrets-from-vault run-apply clean-secrets
-
-
+apply: ensure-context get-secrets-from-vault run-apply clean-secrets
