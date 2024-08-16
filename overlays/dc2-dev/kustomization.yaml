@@ -4,6 +4,7 @@ resources:
 # cnpg
 - cnpg-butler-dc2-database.yaml
 - cnpg-butler-dc2-pooler.yaml
+- cnpg-db-svc.yaml
 
 secretGenerator:
 - name: usdf-butler-dc2-creds
