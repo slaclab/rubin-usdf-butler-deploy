@@ -4,6 +4,7 @@ resources:
 # cnpg
 - cnpg-butler-embargo-database.yaml
 - cnpg-butler-embargo-pooler.yaml
+- backup.yaml
 
 secretGenerator:
 - name: usdf-butler-embargo-creds
@@ -12,6 +13,14 @@ secretGenerator:
   files:
   - etc/.secrets/username
   - etc/.secrets/password
+  
+- name: s3-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - ACCESS_KEY_ID=etc/.secrets/access-key
+  - ACCESS_SECRET_KEY=etc/.secrets/secret-key
+
 
 namespace: embargo-prod
 commonLabels:

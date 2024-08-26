@@ -4,8 +4,21 @@ kind: Cluster
 metadata:
   name: usdf-butler-embargo
 spec:
-  instances: 1
+  instances: 2
   primaryUpdateStrategy: unsupervised
+
+  backup:
+    retentionPolicy: "15d"
+    barmanObjectStore:
+      destinationPath: s3://rubin-usdf-butler-embargo
+      endpointURL: https://s3dfrgw.slac.stanford.edu
+      s3Credentials:
+        accessKeyId:
+          name: s3-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: s3-creds
+          key: ACCESS_SECRET_KEY
 
   bootstrap:
     initdb:
@@ -14,7 +27,6 @@ spec:
       secret:
         name: usdf-butler-embargo-creds
 
-  
   imageName:  ghcr.io/lsst-sqre/cnpg-postgres-images:14.5
   inheritedMetadata:
     annotations:
