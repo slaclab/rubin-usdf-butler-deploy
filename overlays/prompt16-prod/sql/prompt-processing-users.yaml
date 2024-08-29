@@ -1,0 +1,15 @@
+--latiss_prompt
+\c lsstdb1
+CREATE USER latiss_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE lsstdb1 TO latiss_prompt;
+GRANT USAGE ON SCHEMA embargo TO latiss_prompt;
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA embargo TO latiss_prompt;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA embargo TO latiss_prompt;
+
+--lsstcomcamsim_prompt
+\c lsstdb1
+CREATE USER lsstcomcamsim_prompt WITH PASSWORD <UPDATE FROM VAULT>;
+GRANT CONNECT ON DATABASE lsstdb1 TO lsstcomcamsim_prompt;
+GRANT USAGE ON SCHEMA embargo TO lsstcomcamsim_prompt;
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA embargo TO lsstcomcamsim_prompt;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA embargo TO lsstcomcamsim_prompt;
