@@ -1,0 +1,21 @@
+
+resources:
+- ns.yaml
+# cnpg
+- cnpg-butler-embargo16-database.yaml
+- cnpg-butler-embargo16-pooler.yaml
+- cnpg-db-svc.yaml
+
+secretGenerator:
+- name: usdf-butler-embargo16-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/username
+  - etc/.secrets/password
+
+namespace: embargo16-prod
+commonLabels:
+  env: embargo16-prod
+  app: butler-embargo16
+  namespace: embargo16-prod
