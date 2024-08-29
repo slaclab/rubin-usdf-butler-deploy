@@ -1,0 +1,20 @@
+
+resources:
+- ns.yaml
+# cnpg
+- cnpg-butler-main-database.yaml
+- cnpg-butler-main-pooler.yaml
+
+secretGenerator:
+- name: usdf-butler-main-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/username
+  - etc/.secrets/password
+
+namespace: main-prod
+commonLabels:
+  env: main-prod
+  app: butler-main
+  namespace: main-prod
