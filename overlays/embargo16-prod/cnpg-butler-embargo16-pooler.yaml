@@ -8,7 +8,13 @@ spec:
     name: usdf-butler-embargo16
   instances: 3
   type: rw
+  serviceTemplate:
+    metadata:
+      annotations:
+        metallb.universe.tf/address-pool: sdf-services
+    spec:
 
+      type: LoadBalancer
   pgbouncer:
     poolMode: transaction
     parameters:
@@ -62,6 +68,13 @@ spec:
     name: usdf-butler-embargo16
   instances: 3
   type: rw
+  serviceTemplate:
+    metadata:
+      annotations:
+        metallb.universe.tf/address-pool: sdf-services
+    spec:
+      type: LoadBalancer
+
 
   pgbouncer:
     poolMode: session
