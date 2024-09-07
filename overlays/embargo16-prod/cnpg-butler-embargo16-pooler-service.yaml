@@ -17,6 +17,8 @@ spec:
     targetPort: 5432
   selector:
     cnpg.io/poolerName: usdf-butler-embargo16-pooler-transaction-rw
+  sessionAffinity: None
+  
 ---
 apiVersion: v1
 kind: Service
@@ -25,7 +27,7 @@ metadata:
   namespace: embargo16-prod
   annotations:
     metallb.universe.tf/address-pool: sdf-services
-    metallb.universe.tf/loadBalancerIPs: 172.24.5.63
+    metallb.universe.tf/loadBalancerIPs: 172.24.5.199
 spec:
   type: LoadBalancer
   internalTrafficPolicy: Cluster
@@ -36,3 +38,5 @@ spec:
     targetPort: 5432
   selector:
     cnpg.io/poolerName: usdf-butler-embargo16-pooler-session-rw
+  sessionAffinity: None
+  
