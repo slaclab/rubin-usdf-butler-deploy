@@ -24,7 +24,3 @@ secretGenerator:
 
 namespace: embargo16-prod
 
-commonLabels:
-  env: embargo16-prod
-  app: butler-embargo16
-  namespace: embargo16-prod
