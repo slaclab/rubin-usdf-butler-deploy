@@ -14,7 +14,3 @@ secretGenerator:
   - etc/.secrets/password
 
 namespace: dc2-prod
-commonLabels:
-  env: dc2-prod
-  app: butler-dc2
-  namespace: dc2-prod
