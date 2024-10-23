@@ -1,0 +1,27 @@
+
+resources:
+- ns.yaml
+# cnpg
+- cnpg-butler-embargo16-database.yaml
+- cnpg-butler-embargo16-pooler.yaml
+- cnpg-db-svc.yaml
+- backup.yaml
+- cnpg-butler-embargo16-pooler-service.yaml
+
+secretGenerator:
+- name: usdf-butler-embargo16-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/username
+  - etc/.secrets/password
+
+- name: s3-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - ACCESS_KEY_ID=etc/.secrets/client-id
+  - ACCESS_SECRET_KEY=etc/.secrets/client-secret
+
+namespace: embargo16-prod
+
