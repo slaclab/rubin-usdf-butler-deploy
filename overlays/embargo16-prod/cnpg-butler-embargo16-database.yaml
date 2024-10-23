@@ -14,7 +14,7 @@ spec:
   backup:
     retentionPolicy: "15d"
     barmanObjectStore:
-      destinationPath: s3://rubin-usdf-butler/s3-embargo16
+      destinationPath: s3://rubin-usdf-butler-embargo16
       endpointURL: https://s3dfrgw.slac.stanford.edu
       s3Credentials:
         accessKeyId:

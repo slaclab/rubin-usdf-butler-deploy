@@ -5,6 +5,7 @@ resources:
 - cnpg-butler-embargo16-database.yaml
 - cnpg-butler-embargo16-pooler.yaml
 - cnpg-db-svc.yaml
+- backup.yaml
 - cnpg-butler-embargo16-pooler-service.yaml
 
 secretGenerator:
