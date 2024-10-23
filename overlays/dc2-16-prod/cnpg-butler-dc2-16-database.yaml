@@ -7,11 +7,7 @@ spec:
   instances: 2
   primaryUpdateStrategy: unsupervised
 
-  #backup ZA
-  #bootstrap:
-  #  pg_basebackup:
-  #    source: source-db
-  
+ 
   backup:
     retentionPolicy: "15d"
     barmanObjectStore:
@@ -24,10 +20,6 @@ spec:
         secretAccessKey:
           name: s3-creds
           key: ACCESS_SECRET_KEY
-
-
-
-
 
   bootstrap:
     initdb:
