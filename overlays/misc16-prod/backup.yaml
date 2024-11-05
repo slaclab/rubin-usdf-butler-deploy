@@ -1,0 +1,22 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: usdf-butler-misc16-backup
+  namespace: misc16-prod
+spec:
+  immediate: true
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: usdf-butler-misc16
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Backup
+metadata:
+  name: usdf-butler-misc16-backup-on-demand-backup-10-11-2024-0020
+spec:
+  method: barmanObjectStore
+  cluster:
+    name: usdf-butler-misc16
+    
