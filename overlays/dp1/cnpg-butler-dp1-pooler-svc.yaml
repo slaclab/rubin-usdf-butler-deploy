@@ -6,9 +6,9 @@ metadata:
   namespace: dp1
   annotations:
     metallb.universe.tf/address-pool: sdf-rubin-ingest
-    metallb.universe.tf/loadBalancerIPs: 172.24.10.17
 spec:
   type: LoadBalancer
+  loadBalancerIP : 172.24.10.12
   internalTrafficPolicy: Cluster
   ports:
   - name: pgbouncer
@@ -27,9 +27,9 @@ metadata:
   namespace: dp1
   annotations:
     metallb.universe.tf/address-pool: sdf-rubin-ingest
-    metallb.universe.tf/loadBalancerIPs: 172.24.10.16
 spec:
   type: LoadBalancer
+  loadBalancerIP : 172.24.10.16
   internalTrafficPolicy: Cluster
   ports:
   - name: pgbouncer
