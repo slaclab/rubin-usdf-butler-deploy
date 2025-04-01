@@ -52,17 +52,17 @@ spec:
         min_wal_size: 4GB
         pg_stat_statements.track: "none"
         random_page_cost: "1.1"
-        shared_buffers: 8GB
+        shared_buffers: 32GB
         wal_compression: "off"
         wal_keep_size: 512MB
         wal_receiver_timeout: 5s
         wal_sender_timeout: 5s
-        work_mem: 320MB
+        work_mem: 640MB
 
 
   resources:
     requests:
-      memory: 16Gi
+      memory: 64Gi
       cpu: 4
     limits:
       memory: 32Gi
