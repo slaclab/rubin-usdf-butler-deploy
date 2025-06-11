@@ -4,7 +4,7 @@ kind: Cluster
 metadata:
   name: usdf-butler-teststand
 spec:
-  instances: 1
+  instances: 2
   primaryUpdateStrategy: unsupervised
 
   bootstrap:
