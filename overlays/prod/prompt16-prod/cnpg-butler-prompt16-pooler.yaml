@@ -8,7 +8,6 @@ spec:
     name: usdf-butler-prompt16
   instances: 3
   type: rw
-
   pgbouncer:
     poolMode: transaction
     parameters:
@@ -23,14 +22,18 @@ spec:
       tcp_keepidle: "1"
       tcp_keepintvl: "1"
       tcp_user_timeout: "1000"
-
+  serviceTemplate:
+    metadata:
+      annotations:
+        metallb.universe.tf/address-pool: sdf-services
+    spec:
+      type: LoadBalancer
   template:
     metadata:
       labels:
         app: pooler
       annotations:
-        prometheus.io/scrape: 'true'
-    
+        prometheus.io/scrape: 'true' 
     spec:
       containers:
       - name: pgbouncer
@@ -41,7 +44,6 @@ spec:
           limits:
             cpu: "1"
             memory: 500Mi
-
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -62,7 +64,6 @@ spec:
     name: usdf-butler-prompt16
   instances: 3
   type: rw
-
   pgbouncer:
     poolMode: session
     parameters:
@@ -77,14 +78,18 @@ spec:
       tcp_keepidle: "1"
       tcp_keepintvl: "1"
       tcp_user_timeout: "1000"
-
+  serviceTemplate:
+    metadata:
+      annotations:
+        metallb.universe.tf/address-pool: sdf-services
+    spec:
+      type: LoadBalancer
   template:
     metadata:
       labels:
         app: pooler
       annotations:
-        prometheus.io/scrape: 'true'
-    
+        prometheus.io/scrape: 'true'   
     spec:
       containers:
       - name: pgbouncer
@@ -95,7 +100,6 @@ spec:
           limits:
             cpu: "1"
             memory: 500Mi
-
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

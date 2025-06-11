@@ -21,4 +21,3 @@ secretGenerator:
   - ACCESS_SECRET_KEY=etc/.secrets/client-secret
 
 namespace: prod2
-
