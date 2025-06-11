@@ -14,8 +14,6 @@ spec:
         metallb.universe.tf/address-pool: sdf-services
     spec:
       type: LoadBalancer
-
-
   pgbouncer:
     poolMode: transaction
     parameters:
@@ -30,14 +28,12 @@ spec:
       tcp_keepidle: "1"
       tcp_keepintvl: "1"
       tcp_user_timeout: "1000"
-
   template:
     metadata:
       labels:
         app: pooler
       annotations:
         prometheus.io/scrape: 'true'
-    
     spec:
       containers:
       - name: pgbouncer
@@ -48,7 +44,6 @@ spec:
           limits:
             cpu: "1"
             memory: 500Mi
-
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -75,7 +70,6 @@ spec:
         metallb.universe.tf/address-pool: sdf-services
     spec:
       type: LoadBalancer
-
   pgbouncer:
     poolMode: session
     parameters:
@@ -90,14 +84,12 @@ spec:
       tcp_keepidle: "1"
       tcp_keepintvl: "1"
       tcp_user_timeout: "1000"
-
   template:
     metadata:
       labels:
         app: pooler
       annotations:
         prometheus.io/scrape: 'true'
-    
     spec:
       containers:
       - name: pgbouncer
@@ -108,7 +100,6 @@ spec:
           limits:
             cpu: "1"
             memory: 500Mi
-
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

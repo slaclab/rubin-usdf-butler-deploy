@@ -13,7 +13,3 @@ secretGenerator:
   - etc/.secrets/password
 
 namespace: misc-dev
-commonLabels:
-  env: misc-dev
-  app: butler-misc
-  namespace: misc-dev
