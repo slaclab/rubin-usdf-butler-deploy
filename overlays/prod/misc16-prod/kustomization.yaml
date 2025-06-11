@@ -24,7 +24,3 @@ secretGenerator:
   - ACCESS_SECRET_KEY=etc/.secrets/client-secret
 
 namespace: misc16-prod
-# commonLabels:
-#   env: misc16-prod
-#   app: butler-misc16
-#   namespace: misc16-prod

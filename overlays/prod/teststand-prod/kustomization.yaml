@@ -14,7 +14,3 @@ secretGenerator:
   - etc/.secrets/password
 
 namespace: teststand-prod
-commonLabels:
-  env: teststand-prod
-  app: butler-teststand
-  namespace: teststand-prod
