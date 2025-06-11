@@ -9,13 +9,3 @@ spec:
   backupOwnerReference: self
   cluster:
     name: usdf-butler-dc2-16
-
----
-apiVersion: postgresql.cnpg.io/v1
-kind: Backup
-metadata:
-  name: usdf-butler-dc2-16-backup-on-demand-10-17-2024-2250
-spec:
-  method: barmanObjectStore
-  cluster:
-    name: usdf-butler-dc2-16
