@@ -15,7 +15,3 @@ secretGenerator:
   - etc/.secrets/password
 
 namespace: prompt-dev
-commonLabels:
-  env: prompt-dev
-  app: butler-prompt
-  namespace: prompt-dev
