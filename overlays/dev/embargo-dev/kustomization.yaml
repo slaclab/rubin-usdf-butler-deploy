@@ -13,7 +13,3 @@ secretGenerator:
   - etc/.secrets/password
 
 namespace: embargo-dev
-commonLabels:
-  env: embargo-dev
-  app: butler-embargo
-  namespace: embargo-dev
