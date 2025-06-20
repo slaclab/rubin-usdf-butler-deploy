@@ -6,11 +6,15 @@ metadata:
 spec:
   instances: 2
   primaryUpdateStrategy: unsupervised
-
-  #bootstrap:
-  #  pg_basebackup:
-  #    source: source-db
-  
+  bootstrap:
+    initdb:
+      database: lsstdb1
+      encoding: UTF8
+      localeCType: C
+      localeCollate: C
+      owner: rubin
+      secret:
+        name: usdf-butler-embargo16-creds
   backup:
     retentionPolicy: "15d"
     barmanObjectStore:
@@ -23,27 +27,21 @@ spec:
         secretAccessKey:
           name: s3-creds
           key: ACCESS_SECRET_KEY
-
   bootstrap:
     initdb:
       database: lsstdb1
       owner: rubin
       secret:
         name: usdf-butler-embargo16-creds
-
-  
   imageName:  ghcr.io/lsst-sqre/cnpg-postgres-images:16.3
   inheritedMetadata:
     annotations:
       prometheus.io/scrape: 'true' 
-
   monitoring:
     enablePodMonitor: true
-
   nodeMaintenanceWindow:
     inProgress: false
     reusePVC: true
-
   postgresql:
     parameters:
         dynamic_shared_memory_type: posix
@@ -55,7 +53,7 @@ spec:
         log_min_duration_statement: 250ms
         log_rotation_age: "0"
         log_rotation_size: "0"
-        log_statement: "none"
+        log_statement: all
         log_temp_files: "1"
         log_truncate_on_rotation: "false"
         logging_collector: "on"
@@ -68,23 +66,21 @@ spec:
         min_wal_size: 4GB
         pg_stat_statements.track: "none"
         random_page_cost: "1.1"
-        shared_buffers: 8GB
+        shared_buffers: 64GB
+        wal_buffers: 64MB
         wal_keep_size: 512MB
         wal_receiver_timeout: 5s
         wal_sender_timeout: 5s
-        work_mem: 320MB
+        work_mem: 640MB
         max_slot_wal_keep_size: "100GB"
         wal_compression: "off"
-
-       
   resources:
     requests:
       memory: 16Gi
-      cpu: 4
+      cpu: 16
     limits:
       memory: 32Gi
-      cpu: 8 
-
+      cpu: 32
   storage:
     storageClass: wekafs--sdf-k8s01
-    size: 1000Gi
+    size: 3000Gi
