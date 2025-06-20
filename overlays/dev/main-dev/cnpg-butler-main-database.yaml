@@ -5,7 +5,7 @@ metadata:
   name: usdf-butler-main
   namespace: main-dev
 spec:
-  instances: 1
+  instances: 2
   primaryUpdateStrategy: unsupervised
   enablePDB: false
 

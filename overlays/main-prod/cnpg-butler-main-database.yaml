@@ -6,27 +6,21 @@ metadata:
 spec:
   instances: 1
   primaryUpdateStrategy: unsupervised
-
   bootstrap:
     initdb:
       database: lsstdb1
       owner: rubin
       secret:
         name: usdf-butler-main-creds
-
-  
   imageName:  ghcr.io/lsst-sqre/cnpg-postgres-images:16.3
   inheritedMetadata:
     annotations:
       prometheus.io/scrape: 'true' 
-
   monitoring:
     enablePodMonitor: true
-
   nodeMaintenanceWindow:
     inProgress: false
     reusePVC: true
-
   postgresql:
     parameters:
         dynamic_shared_memory_type: posix
@@ -58,8 +52,6 @@ spec:
         work_mem: 320MB
         max_slot_wal_keep_size: "100GB"
         wal_compression: "off"
-
-       
   resources:
     requests:
       memory: 16Gi
@@ -67,7 +59,6 @@ spec:
     limits:
       memory: 32Gi
       cpu: 8 
-
   storage:
     storageClass: wekafs--sdf-k8s01
     size: 1000Gi
