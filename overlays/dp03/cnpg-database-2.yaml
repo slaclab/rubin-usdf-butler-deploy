@@ -7,39 +7,36 @@ metadata:
 spec:
   instances: 1
   primaryUpdateStrategy: unsupervised
-
   bootstrap:
-    recovery:
-      source: dp03-recovery
-
-  externalClusters:
-  - name: dp03-recovery
+    initdb:
+      database: app
+      encoding: UTF8
+      localeCType: C
+      localeCollate: C
+      owner: app
+  backup:
     barmanObjectStore:
       destinationPath: s3://rubin-usdf-pg-catalogs
       endpointURL: https://s3dfrgw.slac.stanford.edu
-      serverName: dp03
       s3Credentials:
         accessKeyId:
-          name: s3-creds
           key: ACCESS_KEY_ID
-        secretAccessKey:
           name: s3-creds
+        inheritFromIAMRole: false
+        secretAccessKey:
           key: ACCESS_SECRET_KEY
-      wal:
-        maxParallel: 8
-
+          name: s3-creds
+    retentionPolicy: 15d
+    target: prefer-standby
   imageName: lsstsqre/cloudnative-pg:14.4
   inheritedMetadata:
     annotations:
       prometheus.io/scrape: 'true'
-
   monitoring:
     enablePodMonitor: true
-
   nodeMaintenanceWindow:
     inProgress: false
     reusePVC: true
-
   postgresql:
     parameters:
       log_disconnections: "on"
@@ -67,9 +64,6 @@ spec:
     limits:
       memory: 64Gi
       cpu: 16
-
   storage:
     storageClass: wekafs--sdf-k8s01
     size: 2000Gi
-
-

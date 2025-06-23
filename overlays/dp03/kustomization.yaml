@@ -1,13 +1,9 @@
 
 resources:
 - ns.yaml
-- cnpg-database.yaml
-- cnpg-pooler.yaml
+- cnpg-database-2.yaml
+- cnpg-pooler-2.yaml
 - cnpg-backup.yaml
-#- cnpg-pooler-service.yaml
-
-#patches:
-#- endpoints-patch.yaml
 
 secretGenerator:
 - name: dp03-creds
