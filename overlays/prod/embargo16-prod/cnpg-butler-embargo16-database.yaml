@@ -76,10 +76,10 @@ spec:
         wal_compression: "off"
   resources:
     requests:
-      memory: 16Gi
+      memory: 128Gi
       cpu: 16
     limits:
-      memory: 32Gi
+      memory: 256Gi
       cpu: 32
   storage:
     storageClass: wekafs--sdf-k8s01
