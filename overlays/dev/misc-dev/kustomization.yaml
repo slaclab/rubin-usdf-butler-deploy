@@ -1,0 +1,15 @@
+resources:
+- ns.yaml
+# cnpg
+- cnpg-butler-misc-database.yaml
+- cnpg-butler-misc-pooler.yaml
+
+secretGenerator:
+- name: usdf-butler-misc-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/username
+  - etc/.secrets/password
+
+namespace: misc-dev

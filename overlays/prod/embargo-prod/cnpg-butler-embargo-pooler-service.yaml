@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: usdf-butler-embargo-pooler-session-rw
+  namespace: embargo-prod
+  annotations:
+    metallb.universe.tf/address-pool: sdf-services
+spec:
+  ports:
+  - name: pgbouncer
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    cnpg.io/poolerName: usdf-butler-embargo-pooler-session-rw
+  sessionAffinity: None
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: usdf-butler-embargo-pooler-transaction-rw
+  namespace: embargo-prod
+  annotations:
+    metallb.universe.tf/address-pool: sdf-services
+spec:
+  ports:
+  - name: pgbouncer
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    cnpg.io/poolerName: usdf-butler-embargo-pooler-transaction-rw
+  sessionAffinity: None
+  type: LoadBalancer
