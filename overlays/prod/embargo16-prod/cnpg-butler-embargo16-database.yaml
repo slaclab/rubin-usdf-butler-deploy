@@ -1,8 +1,8 @@
-
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: usdf-butler-embargo16
+  namespace: embargo16-prod
 spec:
   instances: 2
   primaryUpdateStrategy: unsupervised
@@ -50,7 +50,7 @@ spec:
         log_disconnections: "off"
         log_duration: "off"
         log_filename: postgres
-        log_min_duration_statement: 250ms
+        log_min_duration_statement: 1000ms
         log_rotation_age: "0"
         log_rotation_size: "0"
         log_statement: all
@@ -71,15 +71,16 @@ spec:
         wal_keep_size: 512MB
         wal_receiver_timeout: 5s
         wal_sender_timeout: 5s
-        work_mem: 640MB
+        work_mem: 320MB
         max_slot_wal_keep_size: "100GB"
         wal_compression: "off"
+        checkpoint_timeout: "900"
   resources:
     requests:
-      memory: 128Gi
+      memory: 192Gi
       cpu: 16
     limits:
-      memory: 256Gi
+      memory: 192Gi
       cpu: 32
   storage:
     storageClass: wekafs--sdf-k8s01
