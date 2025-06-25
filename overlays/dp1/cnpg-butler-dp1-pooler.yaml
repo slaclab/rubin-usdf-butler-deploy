@@ -16,7 +16,7 @@ spec:
       log_connections: "1"
       log_disconnections: "1"
       max_client_conn: "2000"
-      server_idle_timeout: "0"
+      server_idle_timeout: "60"
       tcp_keepalive: "1"
       tcp_keepcnt: "1"
       tcp_keepidle: "1"
