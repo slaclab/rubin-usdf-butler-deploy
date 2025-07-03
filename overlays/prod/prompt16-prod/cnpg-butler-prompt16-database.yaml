@@ -92,6 +92,7 @@ spec:
       wal_receiver_timeout: 5s
       wal_sender_timeout: 5s
       work_mem: 320MB
+      effective_cache_size: 24GB
     syncReplicaElectionConstraint:
       enabled: false
   primaryUpdateMethod: restart
