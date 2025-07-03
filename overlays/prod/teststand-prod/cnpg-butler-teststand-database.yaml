@@ -14,7 +14,22 @@ spec:
       secret:
         name: usdf-butler-teststand-creds
 
-  
+  backup:
+    retentionPolicy: "2d"
+    barmanObjectStore:
+      wal:
+        compression: gzip
+        maxParallel: 4
+      destinationPath: s3://rubin-usdf-butler-teststand
+      endpointURL: https://s3dfrgw.slac.stanford.edu
+      s3Credentials:
+        accessKeyId:
+          name: s3-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: s3-creds
+          key: ACCESS_SECRET_KEY
+
   imageName:  ghcr.io/lsst-sqre/cnpg-postgres-images:16.3
   inheritedMetadata:
     annotations:

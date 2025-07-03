@@ -18,6 +18,9 @@ spec:
   backup:
     retentionPolicy: "15d"
     barmanObjectStore:
+      wal:
+        compression: gzip
+        maxParallel: 8            
       destinationPath: s3://rubin-usdf-butler-embargo16
       endpointURL: https://s3dfrgw.slac.stanford.edu
       s3Credentials:

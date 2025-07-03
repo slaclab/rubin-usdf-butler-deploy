@@ -4,6 +4,7 @@ resources:
 # cnpg
 - cnpg-butler-teststand-database.yaml
 - cnpg-butler-teststand-pooler.yaml
+- backup.yaml
 
 secretGenerator:
 - name: usdf-butler-teststand-creds
@@ -12,5 +13,12 @@ secretGenerator:
   files:
   - etc/.secrets/username
   - etc/.secrets/password
+
+- name: s3-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - ACCESS_KEY_ID=etc/.secrets/access_key
+  - ACCESS_SECRET_KEY=etc/.secrets/secret_key
 
 namespace: teststand-prod
