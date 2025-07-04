@@ -8,6 +8,9 @@ spec:
     podAntiAffinityType: preferred
   backup:
     barmanObjectStore:
+      wal:
+        compression: gzip
+        maxParallel: 8   
       destinationPath: s3://rubin-usdf-butler-prompt16
       endpointURL: https://s3dfrgw.slac.stanford.edu
       s3Credentials:
@@ -118,4 +121,8 @@ spec:
     resizeInUseVolumes: true
     size: 1000Gi
     storageClass: wekafs--sdf-k8s01
+  walStorage:
+    resizeInUseVolumes: true
+    storageClass: wekafs--sdf-k8s01
+    size: 320Gi
   switchoverDelay: 3600
