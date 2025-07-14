@@ -5,6 +5,7 @@ resources:
 - cnpg-butler3-pooler.yaml
 - backup.yaml
 - cnpg-butler3-pooler-service.yaml
+- cnpg-butler3-db-svc.yaml
 
 secretGenerator:
 - name: usdf-butler-butler-creds
