@@ -7,6 +7,7 @@ resources:
 - cnpg-db-svc.yaml
 - backup.yaml
 - cnpg-butler-embargo16-pooler-service.yaml
+- snap-activity.yaml
 
 secretGenerator:
 - name: usdf-butler-embargo16-creds
@@ -23,5 +24,11 @@ secretGenerator:
   - ACCESS_KEY_ID=etc/.secrets/client-id
   - ACCESS_SECRET_KEY=etc/.secrets/client-secret
 
-namespace: embargo16-prod
+- name: usdf-butler-embargo16-monitor
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/monitor-user
+  - etc/.secrets/monitor-password
 
+namespace: embargo16-prod
