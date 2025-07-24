@@ -174,3 +174,4 @@ spec:
               configMap:
                 name: snap-script
                 defaultMode: 0775
+
