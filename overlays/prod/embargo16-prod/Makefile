@@ -6,6 +6,7 @@ get-secrets-from-vault:
 	mkdir -p etc/.secrets/
 	set -e; for i in username password; do vault kv get --field=$$i $(SECRET_PATH) > etc/.secrets/$$i ; done
 	set -e; for i in client-id client-secret; do vault kv get --field=$$i $(S3_SECRET_PATH) > etc/.secrets/$$i ; done
+	set -e; for i in monitor-user monitor-password; do vault kv get --field=$$i $(S3_SECRET_PATH) > etc/.secrets/$$i ; done
 
 clean-secrets:
 	rm -rf etc/.secrets/
@@ -19,5 +20,3 @@ run-kustomize:
 dump: get-secrets-from-vault run-kustomize clean-secrets
 
 apply: get-secrets-from-vault run-apply clean-secrets
-
-
