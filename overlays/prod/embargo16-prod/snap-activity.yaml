@@ -1,0 +1,177 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: snap-script
+  namespace: embargo16-prod
+data:
+  snap-activity.sql: |
+    INSERT INTO pg_stat_activity_snap
+    SELECT
+      now() ts
+      ,pid
+      ,usename
+      ,datname
+      ,xact_start
+      ,query_start
+      ,state
+      ,wait_event_type
+      ,wait_event
+      ,query
+    FROM pg_stat_activity
+    WHERE state <> 'idle' and pid <> pg_backend_pid() and usename <> 'streaming_replica';
+  snap-statement.sql: |
+    INSERT INTO pg_stat_statements_snap
+    SELECT
+      now() ts
+      ,queryid
+      ,calls
+      ,rows
+      ,shared_blks_hit
+      ,shared_blks_read
+      ,shared_blks_dirtied
+      ,shared_blks_written
+      ,local_blks_hit
+      ,local_blks_read
+      ,local_blks_dirtied
+      ,local_blks_written
+      ,temp_blks_read
+      ,temp_blks_written
+      ,blk_read_time
+      ,blk_write_time
+      ,temp_blk_read_time
+      ,temp_blk_write_time
+      ,query
+    FROM pg_stat_statements
+    WHERE calls > 0;
+    SELECT pg_stat_statements_reset();
+  snap-purge.sql: |
+    DELETE FROM pg_stat_activity_snap WHERE ts < now() - interval '14 days';
+    DELETE FROM pg_stat_statements_snap WHERE ts < now() - interval '14 days';
+    VACUUM (ANALYZE) pg_stat_activity_snap;
+    VACUUM (ANALYZE) pg_stat_statements_snap;
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snap-activity
+  namespace: embargo16-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snap-activity
+  template:
+    metadata:
+      labels:
+        app: snap-activity
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: psql
+        image: postgres:16
+        env:
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: usdf-butler-embargo16-monitor 
+              key: monitor-password
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            while true; do
+              psql -h usdf-butler-embargo16-rw -U monitor_user -d postgres -v ON_ERROR_STOP=1 -f /sql/snap-activity.sql
+              sleep 10
+            done
+        volumeMounts:
+          - name: snap-script
+            mountPath: /sql
+            readOnly: true
+      volumes:
+        - name: snap-script
+          configMap:
+            name: snap-script
+            defaultMode: 0775
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: snap-statement
+  namespace: embargo16-prod
+spec:
+  schedule: "*/10 * * * *"        # every 10 minutes
+  concurrencyPolicy: Forbid       # skip if previous job still running
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 1             # retry once on failure
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: psql
+            image: postgres:16
+            env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: usdf-butler-embargo16-monitor 
+                  key: monitor-password
+            command: ["/bin/sh", "-c"]
+            args:
+              - |
+                psql -h usdf-butler-embargo16-rw -U monitor_user -d postgres -v ON_ERROR_STOP=1 -f /sql/snap-statement.sql
+            volumeMounts:
+              - name: snap-script
+                mountPath: /sql
+                readOnly: true
+          volumes:
+            - name: snap-script
+              configMap:
+                name: snap-script
+                defaultMode: 0775
+
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: snap-purge
+  namespace: embargo16-prod
+spec:
+  schedule: "0 14 * * *"        # daily purge
+  concurrencyPolicy: Forbid     # skip if previous job still running
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 1             # retry once on failure
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: psql
+            image: postgres:16
+            env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: usdf-butler-embargo16-monitor 
+                  key: monitor-password
+            command: ["/bin/sh", "-c"]
+            args:
+              - |
+                psql -h usdf-butler-embargo16-rw -U monitor_user -d postgres -v ON_ERROR_STOP=1 -f /sql/snap-purge.sql
+            volumeMounts:
+              - name: snap-script
+                mountPath: /sql
+                readOnly: true
+          volumes:
+            - name: snap-script
+              configMap:
+                name: snap-script
+                defaultMode: 0775
+
