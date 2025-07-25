@@ -8,7 +8,6 @@ spec:
   instances: 2
   primaryUpdateStrategy: unsupervised
 
-
   backup:
     retentionPolicy: "15d"
     barmanObjectStore:
@@ -21,6 +20,9 @@ spec:
         secretAccessKey:
           name: s3-creds
           key: ACCESS_SECRET_KEY
+      wal:
+        compression: gzip
+        maxParallel: 8
 
   imageName:  ghcr.io/lsst-sqre/cnpg-postgres-images:14.5
   inheritedMetadata:
@@ -33,20 +35,25 @@ spec:
 
   postgresql:
     parameters:
+      checkpoint_timeout: "3600"
       log_disconnections: "on"
       log_duration: "on"
       log_min_duration_statement: 250ms
+      idle_in_transaction_session_timeout: "14400000"
+      log_statement: none
       log_statement: all
       log_temp_files: "1"
       maintenance_work_mem: 2GB
       max_connections: "3000"
-      max_wal_size: 16GB
-      min_wal_size: 4GB
+      max_wal_size: 256GB
+      min_wal_size: 64GB
       pg_stat_statements.max: "10000"
       pg_stat_statements.track: all
       random_page_cost: "1.1"
       shared_buffers: 16GB
       work_mem: 160MB
+      statement_timeout: "14400000"
+      wal_keep_size: 64GB
 
   resources:
     requests:
