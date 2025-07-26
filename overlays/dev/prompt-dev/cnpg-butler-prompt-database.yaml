@@ -1,11 +1,10 @@
-
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: usdf-butler-prompt
   namespace: prompt-dev
 spec:
-  instances: 1
+  instances: 2
   primaryUpdateStrategy: unsupervised
   enablePDB: false
 
@@ -18,7 +17,7 @@ spec:
       postInitSQL:
         - "CREATE EXTENSION pg_sphere;"
   
-  imageName:  ghcr.io/lsst-sqre/cnpg-postgres-images:16.3
+  imageName:  ghcr.io/lsst-sqre/cnpg-postgres-images:16.6
   inheritedMetadata:
     annotations:
       prometheus.io/scrape: 'true' 

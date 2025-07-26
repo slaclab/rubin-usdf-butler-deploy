@@ -1,4 +1,3 @@
-
 SECRET_PATH ?= secret/rubin/usdf-butler-dev/postgres-prompt
 
 get-secrets-from-vault:
@@ -17,5 +16,3 @@ run-kustomize:
 dump: get-secrets-from-vault run-kustomize clean-secrets
 
 apply: get-secrets-from-vault run-apply clean-secrets
-
-
