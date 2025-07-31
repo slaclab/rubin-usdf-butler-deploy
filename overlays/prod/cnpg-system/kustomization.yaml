@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: cnpg-system
+resources:
+- ns.yaml
+- resources/clusterrole-cnpg-database-editor-role.yaml
+- resources/clusterrole-cnpg-database-viewer-role.yaml
+- resources/clusterrole-cnpg-manager.yaml
+- resources/clusterrole-cnpg-publication-editor-role.yaml
+- resources/clusterrole-cnpg-publication-viewer-role.yaml
+- resources/clusterrole-cnpg-subscription-editor-role.yaml
+- resources/clusterrole-cnpg-subscription-viewer-role.yaml
+- resources/clusterrolebinding-cnpg-manager-rolebinding.yaml
+- resources/configmap-cnpg-default-monitoring.yaml
+- resources/deployment-cnpg-controller-manager.yaml
+- resources/mutatingwebhookconfiguration-cnpg-mutating-webhook-configuration.yaml
+- resources/service-cnpg-webhook-service.yaml
+- resources/serviceaccount-cnpg-manager.yaml
+- resources/validatingwebhookconfiguration-cnpg-validating-webhook-configuration.yaml
+
+patches:
+- path: deployment-cnpg-manager-patch.yaml
