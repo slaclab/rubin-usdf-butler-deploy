@@ -30,7 +30,7 @@ spec:
 
   postgresql:
     parameters:
-        jit: "off"
+        jit: "on"
         dynamic_shared_memory_type: posix
         log_destination: csvlog
         log_directory: /controller/log
