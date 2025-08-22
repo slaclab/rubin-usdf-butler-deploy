@@ -1,0 +1,51 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: usdf-butler3-pooler-ro
+  namespace: prod2
+spec:
+  cluster:
+    name: usdf-butler3
+  instances: 0
+  pgbouncer:
+    parameters:
+      default_pool_size: "100"
+      idle_transaction_timeout: "0"
+      log_connections: "1"
+      log_disconnections: "1"
+      max_client_conn: "1000"
+      server_idle_timeout: "0"
+      tcp_keepalive: "1"
+      tcp_keepcnt: "1"
+      tcp_keepidle: "1"
+      tcp_keepintvl: "1"
+      tcp_user_timeout: "21600"
+    paused: false
+    poolMode: session
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+      labels:
+        app: pooler
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - pooler
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: pgbouncer
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: 500Mi
+          requests:
+            cpu: "0.1"
+            memory: 100Mi
+  type: ro
