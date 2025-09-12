@@ -57,6 +57,9 @@ spec:
             cpu: "1"
             memory: 100Mi
   type: rw
+
+---
+
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
