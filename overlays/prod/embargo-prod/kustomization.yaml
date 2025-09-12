@@ -5,6 +5,7 @@ resources:
 - cnpg-butler-embargo-database.yaml
 - cnpg-butler-embargo-pooler.yaml
 - backup.yaml
+- db-svc.yaml
 
 secretGenerator:
 - name: usdf-butler-embargo-creds

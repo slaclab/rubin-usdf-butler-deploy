@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.io/address-pool: sdf-rubin-ingest
+    metallb.io/ip-allocated-from-pool: sdf-rubin-ingest
+  name: usdf-butler-dp1-svc
+  namespace: dp1
+spec:
+  allocateLoadBalancerNodePorts: false
+  clusterIP: 10.105.32.141
+  clusterIPs:
+  - 10.105.32.141
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  loadBalancerIP: 172.24.10.18
+  ports:
+  - name: pgbouncer
+    nodePort: 30247
+    port: 5432
+  selector:
+    cnpg.io/cluster: usdf-butler-dp1
+    role: primary
+  type: LoadBalancer

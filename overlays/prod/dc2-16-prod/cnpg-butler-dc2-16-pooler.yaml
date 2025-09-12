@@ -24,12 +24,6 @@ spec:
       tcp_keepidle: "1"
       tcp_keepintvl: "1"
       tcp_user_timeout: "1000"
-  serviceTemplate:
-    metadata:
-      annotations:
-        metallb.universe.tf/address-pool: sdf-services
-    spec:
-      type: LoadBalancer
   template:
     metadata:
       labels:
@@ -83,12 +77,6 @@ spec:
       tcp_keepidle: "1"
       tcp_keepintvl: "1"
       tcp_user_timeout: "1000"
-  serviceTemplate:
-    metadata:
-      annotations:
-        metallb.universe.tf/address-pool: sdf-services
-    spec:
-      type: LoadBalancer
   template:
     metadata:
       labels:
