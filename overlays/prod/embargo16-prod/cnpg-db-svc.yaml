@@ -4,8 +4,9 @@ metadata:
   name: usdf-butler-embargo16-svc
   namespace: embargo16-prod
   annotations:
-    metallb.universe.tf/address-pool: sdf-services
+    metallb.io/address-pool: sdf-services
 spec:
+  allocateLoadBalancerNodePorts: false
   ports:
   - name: pgbouncer
     port: 5432
@@ -17,3 +18,30 @@ spec:
   sessionAffinity: None
   type: LoadBalancer
 
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.io/address-pool: sdf-rubin-ingest
+    metallb.io/ip-allocated-from-pool: sdf-rubin-ingest
+  name: usdf-butler-embargo16-pooler-session-rw-svc
+  namespace: embargo16-prod
+spec:
+  allocateLoadBalancerNodePorts: false
+  clusterIP: 10.97.157.69
+  clusterIPs:
+  - 10.97.157.69
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  loadBalancerIP: 172.24.10.22
+  ports:
+  - name: pgbouncer
+    nodePort: 31122
+    port: 5432
+  selector:
+    app: pooler
+    cnpg.io/poolerName: usdf-butler-embargo16-pooler-session-rw
+  type: LoadBalancer

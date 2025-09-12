@@ -4,9 +4,10 @@ metadata:
   name: usdf-butler-misc16-svc
   namespace: misc16-prod
   annotations:
-    metallb.universe.tf/address-pool: sdf-services
-    #metallb.universe.tf/loadBalancerIPs: 172.24.5.61
+    metallb.io/address-pool: sdf-services
+    #metallb.io/loadBalancerIPs: 172.24.5.61
 spec:
+  allocateLoadBalancerNodePorts: false
   ports:
   - name: pgbouncer
     port: 5432

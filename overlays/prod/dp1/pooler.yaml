@@ -1,106 +1,42 @@
----
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
-  name: usdf-butler-teststand-pooler-transaction-rw
-  namespace: teststand-prod
+  name: usdf-butler-dp1-pooler-session-rw
+  namespace: dp1
 spec:
   cluster:
-    name: usdf-butler-teststand
+    name: usdf-butler-dp1
   instances: 3
-  type: rw
-
   pgbouncer:
-    poolMode: transaction
     parameters:
-      max_client_conn: "2000"
       default_pool_size: "1000"
+      idle_transaction_timeout: "0"
       log_connections: "1"
       log_disconnections: "1"
-      idle_transaction_timeout: "0"
+      max_client_conn: "2000"
       server_idle_timeout: "0"
       tcp_keepalive: "1"
       tcp_keepcnt: "1"
       tcp_keepidle: "1"
       tcp_keepintvl: "1"
       tcp_user_timeout: "1000"
-  template:
-    metadata:
-      labels:
-        app: pooler
-      annotations:
-        prometheus.io/scrape: 'true'
-    spec:
-      containers:
-      - name: pgbouncer
-        resources:
-          requests:
-            cpu: "1"
-            memory: 100Mi
-          limits:
-            cpu: "1"
-            memory: 500Mi
-
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - pooler
-            topologyKey: "kubernetes.io/hostname"
----
-apiVersion: postgresql.cnpg.io/v1
-kind: Pooler
-metadata:
-  name: usdf-butler-teststand-pooler-session-rw
-  namespace: teststand-prod
-spec:
-  cluster:
-    name: usdf-butler-teststand
-  instances: 3
-  type: rw
-
-  pgbouncer:
+    paused: false
     poolMode: session
-    parameters:
-      max_client_conn: "2000"
-      default_pool_size: "1000"
-      log_connections: "1"
-      log_disconnections: "1"
-      idle_transaction_timeout: "0"
-      server_idle_timeout: "0"
-      tcp_keepalive: "1"
-      tcp_keepcnt: "1"
-      tcp_keepidle: "1"
-      tcp_keepintvl: "1"
-      tcp_user_timeout: "1000"
   serviceTemplate:
     metadata:
       annotations:
-        metallb.universe.tf/address-pool: sdf-services
+        metallb.io/address-pool: sdf-rubin-ingest
     spec:
+      allocateLoadBalancerNodePorts: false
+      loadBalancerIP: 172.24.10.16
       type: LoadBalancer
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
       labels:
         app: pooler
-      annotations:
-        prometheus.io/scrape: 'true'
-    
     spec:
-      containers:
-      - name: pgbouncer
-        resources:
-          requests:
-            cpu: "1"
-            memory: 100Mi
-          limits:
-            cpu: "1"
-            memory: 500Mi
-
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -110,5 +46,73 @@ spec:
                 operator: In
                 values:
                 - pooler
-            topologyKey: "kubernetes.io/hostname"
----
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: pgbouncer
+        resources:
+          limits:
+            cpu: "1"
+            memory: 500Mi
+          requests:
+            cpu: "1"
+            memory: 100Mi
+  type: rw
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: usdf-butler-dp1-pooler-transaction-rw
+  namespace: dp1
+spec:
+  cluster:
+    name: usdf-butler-dp1
+  instances: 3
+  pgbouncer:
+    parameters:
+      default_pool_size: "1000"
+      idle_transaction_timeout: "0"
+      log_connections: "1"
+      log_disconnections: "1"
+      max_client_conn: "2000"
+      server_idle_timeout: "0"
+      tcp_keepalive: "1"
+      tcp_keepcnt: "1"
+      tcp_keepidle: "1"
+      tcp_keepintvl: "1"
+      tcp_user_timeout: "1000"
+    paused: false
+    poolMode: transaction
+  serviceTemplate:
+    metadata:
+      annotations:
+        metallb.io/address-pool: sdf-rubin-ingest
+    spec:
+      allocateLoadBalancerNodePorts: false
+      loadBalancerIP: 172.24.10.12
+      type: LoadBalancer
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+      labels:
+        app: pooler
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - pooler
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: pgbouncer
+        resources:
+          limits:
+            cpu: "1"
+            memory: 500Mi
+          requests:
+            cpu: "1"
+            memory: 100Mi
+  type: rw

@@ -4,8 +4,9 @@ metadata:
   name: usdf-butler-dc2-16-svc
   namespace: dc2-16-prod
   annotations:
-    metallb.universe.tf/address-pool: sdf-services
+    metallb.io/address-pool: sdf-services
 spec:
+  allocateLoadBalancerNodePorts: false
   ports:
   - name: pgbouncer
     port: 5432
