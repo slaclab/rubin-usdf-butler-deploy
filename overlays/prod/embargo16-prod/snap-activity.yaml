@@ -71,6 +71,13 @@ spec:
       containers:
       - name: psql
         image: postgres:16
+        resources:
+              requests:
+                memory: 128Mi
+                cpu: 100m
+              limits:
+                memory: 256Mi
+                cpu: 200m
         env:
         - name: PGPASSWORD
           valueFrom:
@@ -114,6 +121,13 @@ spec:
           containers:
           - name: psql
             image: postgres:16
+            resources:
+              requests:
+                memory: 128Mi
+                cpu: 100m
+              limits:
+                memory: 256Mi
+                cpu: 200m
             env:
             - name: PGPASSWORD
               valueFrom:
@@ -155,6 +169,13 @@ spec:
           containers:
           - name: psql
             image: postgres:16
+            resources:
+              requests:
+                memory: 128Mi
+                cpu: 100m
+              limits:
+                memory: 256Mi
+                cpu: 200m
             env:
             - name: PGPASSWORD
               valueFrom:
