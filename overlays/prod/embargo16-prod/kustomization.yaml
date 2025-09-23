@@ -2,12 +2,11 @@
 resources:
 - ns.yaml
 # cnpg
-- cnpg-butler-embargo16-database.yaml
-- cnpg-butler-embargo16-pooler.yaml
-- cnpg-db-svc.yaml
+- database.yaml
+- pooler.yaml
+- lb-svc.yaml
 - backup.yaml
-- cnpg-butler-embargo16-pooler-service.yaml
-- snap-activity.yaml
+#- object-store.yaml
 
 secretGenerator:
 - name: usdf-butler-embargo16-creds
