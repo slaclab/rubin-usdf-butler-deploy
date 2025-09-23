@@ -23,7 +23,6 @@ spec:
       data: 
         jobs: 8
         immediateCheckpoint: true
-        compression: gzip
     retentionPolicy: 15d
     target: prefer-standby
   bootstrap:
@@ -52,9 +51,6 @@ spec:
       name: cnpg-default-monitoring
     disableDefaultQueries: false
     enablePodMonitor: true
-  nodeMaintenanceWindow:
-    inProgress: false
-    reusePVC: true
   postgresGID: 26
   postgresUID: 26
   postgresql:

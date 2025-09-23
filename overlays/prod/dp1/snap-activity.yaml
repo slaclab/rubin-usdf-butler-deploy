@@ -1,19 +1,8 @@
 apiVersion: v1
-kind: Secret
-metadata:
-  name: ${DB}-pg-monitor
-  namespace: ${NS}
-type: Opaque
-stringData:
-  monitor-password: "${PGPASSWORD}"
-
----
-
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: snap-script
-  namespace: ${NS}
+  namespace: dp1
 data:
   snap-activity.sql: |
     INSERT INTO pg_stat_activity_snap
@@ -39,7 +28,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: snap-activity
-  namespace: ${NS}
+  namespace: dp1
 spec:
   replicas: 1
   selector:
@@ -55,23 +44,23 @@ spec:
       - name: psql
         image: postgres:16
         resources:
-              requests:
-                memory: 128Mi
-                cpu: 100m
-              limits:
-                memory: 256Mi
-                cpu: 200m
+          requests:
+            memory: 128Mi
+            cpu: 100m
+          limits:
+            memory: 256Mi
+            cpu: 200m
         env:
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:
-              name: ${DB}-pg-monitor 
+              name: usdf-butler-main-monitor 
               key: monitor-password
         command: ["/bin/sh", "-c"]
         args:
           - |
             while true; do
-              psql -h ${DB}-rw -U monitor_user -d postgres -v ON_ERROR_STOP=1 -f /sql/snap-activity.sql
+              psql -h pooler-transaction-rw -U monitor_user -d postgres -v ON_ERROR_STOP=1 -f /sql/snap-activity.sql
               sleep 10
             done
         volumeMounts:
@@ -89,7 +78,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: snap-statement
-  namespace: ${NS}
+  namespace: dp1
 spec:
   schedule: "*/10 * * * *"        # every 10 minutes
   concurrencyPolicy: Forbid       # skip if previous job still running
@@ -115,12 +104,12 @@ spec:
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ${DB}-pg-monitor 
+                  name: usdf-butler-main-monitor 
                   key: monitor-password
             command: ["/bin/sh", "-c"]
             args:
               - |
-                psql -h ${DB}-rw -U monitor_user -d postgres -v ON_ERROR_STOP=1 -f /sql/snap-statement.sql
+                psql -h pooler-transaction-rw -U monitor_user -d postgres -v ON_ERROR_STOP=1 -f /sql/snap-statement.sql
             volumeMounts:
               - name: snap-script
                 mountPath: /sql
@@ -137,7 +126,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: snap-purge
-  namespace: ${NS}
+  namespace: dp1
 spec:
   schedule: "0 14 * * *"        # daily purge
   concurrencyPolicy: Forbid     # skip if previous job still running
@@ -163,12 +152,12 @@ spec:
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ${DB}-pg-monitor 
+                  name: usdf-butler-main-monitor 
                   key: monitor-password
             command: ["/bin/sh", "-c"]
             args:
               - |
-                psql -h ${DB}-rw -U monitor_user -d postgres -v ON_ERROR_STOP=1 -f /sql/snap-purge.sql
+                psql -h pooler-transaction-rw -U monitor_user -d postgres -v ON_ERROR_STOP=1 -f /sql/snap-purge.sql
             volumeMounts:
               - name: snap-script
                 mountPath: /sql

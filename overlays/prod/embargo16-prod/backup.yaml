@@ -9,4 +9,3 @@ spec:
   backupOwnerReference: self
   cluster:
     name: usdf-butler-embargo16
-
