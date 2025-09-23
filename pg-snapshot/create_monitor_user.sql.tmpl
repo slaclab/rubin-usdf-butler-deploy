@@ -1,9 +1,0 @@
-DROP ROLE monitor_user;
-CREATE ROLE monitor_user
-  LOGIN
-  PASSWORD '${PGPASSWORD}'
-  NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
-
--- 2. Allow the user to connect to your DB
-alter user monitor_user with superuser;
-\q
