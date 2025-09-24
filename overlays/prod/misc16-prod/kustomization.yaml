@@ -2,10 +2,9 @@
 resources:
 - ns.yaml
 # cnpg
-- cnpg-butler-misc16-database.yaml
-- cnpg-butler-misc16-pooler.yaml
-#- cnpg-db-svc.yaml
-- cnpg-butler-misc16-pooler-service.yaml
+- database.yaml
+- pooler.yaml
+- lb-svc.yaml
 - backup.yaml
 
 secretGenerator:

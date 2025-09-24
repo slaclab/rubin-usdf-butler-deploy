@@ -1,4 +1,3 @@
-
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -20,7 +19,6 @@ spec:
           name: s3-creds
           key: ACCESS_SECRET_KEY
 
-
   bootstrap:
     initdb:
       database: lsstdb1
@@ -28,7 +26,6 @@ spec:
       secret:
         name: usdf-butler-misc16-creds
 
-  
   imageName:  ghcr.io/lsst-sqre/cnpg-postgres-images:16.3
   inheritedMetadata:
     annotations:
@@ -37,12 +34,9 @@ spec:
   monitoring:
     enablePodMonitor: true
 
-  nodeMaintenanceWindow:
-    inProgress: false
-    reusePVC: true
-
   postgresql:
     parameters:
+        checkpoint_timeout: 3600s
         dynamic_shared_memory_type: posix
         log_destination: csvlog
         log_directory: /controller/log
@@ -52,11 +46,11 @@ spec:
         log_min_duration_statement: 250ms
         log_rotation_age: "0"
         log_rotation_size: "0"
-        log_statement: all
+        log_statement: "none"
         log_temp_files: "1"
         log_truncate_on_rotation: "false"
         logging_collector: "on"
-        maintenance_work_mem: 12GB
+        maintenance_work_mem: 1GB
         max_connections: "2000"
         max_parallel_workers: "32"
         max_replication_slots: "32"
@@ -73,7 +67,6 @@ spec:
         max_slot_wal_keep_size: "100GB"
         wal_compression: "off"
 
-       
   resources:
     requests:
       memory: 16Gi
