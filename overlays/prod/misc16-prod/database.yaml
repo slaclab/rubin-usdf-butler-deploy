@@ -9,15 +9,20 @@ spec:
   backup:
     retentionPolicy: "15d"
     barmanObjectStore:
-      destinationPath: s3://rubin-usdf-butler-misc16
+      destinationPath: s3://rubin-usdf-butler-misc16/misc16-prod
       endpointURL: https://s3dfrgw.slac.stanford.edu
       s3Credentials:
         accessKeyId:
-          name: s3-creds
+          name: misc16-s3-creds
           key: ACCESS_KEY_ID
         secretAccessKey:
-          name: s3-creds
+          name: misc16-s3-creds
           key: ACCESS_SECRET_KEY
+      wal:
+        maxParallel: 8
+      data:
+        jobs: 8
+        immediateCheckpoint: true
 
   bootstrap:
     initdb:
