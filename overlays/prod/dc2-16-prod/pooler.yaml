@@ -52,7 +52,9 @@ spec:
                 values:
                 - pooler
             topologyKey: "kubernetes.io/hostname"
+
 ---
+
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
@@ -105,4 +107,37 @@ spec:
                 values:
                 - pooler
             topologyKey: "kubernetes.io/hostname"
+
 ---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.io/address-pool: sdf-services
+    metallb.io/ip-allocated-from-pool: sdf-services
+    vcluster.loft.sh/block-deletion: "true"
+  labels:
+    vcluster.loft.sh/label-vcluster--usdf-butler-x-9359f3bb2e: dc2-16-prod
+    vcluster.loft.sh/label-vcluster--usdf-butler-x-a172cedcae: butler-dc2-16
+    vcluster.loft.sh/label-vcluster--usdf-butler-x-b77349bf1f: dc2-16-prod
+  name: usdf-butler-prompt16-pooler-transaction-rw
+  namespace: dc2-16-prod
+spec:
+  clusterIP: 10.100.73.237
+  clusterIPs:
+  - 10.100.73.237
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  loadBalancerIP: 172.24.5.148
+  ports:
+  - name: pgbouncer
+    nodePort: 31598
+    port: 5432
+  selector:
+    vcluster.loft.sh/label-vcluster--usdf-butler-x-66a3e6b6ab: usdf-butler-dc2-16-pooler-transaction-rw
+    vcluster.loft.sh/label-vcluster--usdf-butler-x-9359f3bb2e: dc2-16-prod
+    vcluster.loft.sh/label-vcluster--usdf-butler-x-a172cedcae: butler-dc2-16
+    vcluster.loft.sh/label-vcluster--usdf-butler-x-b77349bf1f: dc2-16-prod
+  type: LoadBalancer
