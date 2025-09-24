@@ -2,10 +2,10 @@
 resources:
 - ns.yaml
 # cnpg
-- cnpg-butler-dc2-16-database.yaml
-- cnpg-butler-dc2-16-pooler.yaml
+- database.yaml
+- pooler.yaml
+- lb-svc.yaml
 - backup.yaml
-- cnpg-butler-dc2-16-pooler-service.yaml
 
 secretGenerator:
 - name: usdf-butler-dc2-16-creds

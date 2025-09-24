@@ -19,6 +19,11 @@ spec:
         secretAccessKey:
           name: s3-creds
           key: ACCESS_SECRET_KEY
+      wal:
+        maxParallel: 6
+      data:
+        jobs: 6
+        immediateCheckpoint: true 
 
   bootstrap:
     initdb:
