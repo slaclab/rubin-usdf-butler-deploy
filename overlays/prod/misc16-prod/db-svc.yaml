@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: usdf-butler-dp1-db-svc
-  namespace: dp1
+  name: usdf-butler-misc16-db-svc
+  namespace: misc16-prod
   annotations: 
     metallb.io/address-pool: sdf-rubin-ingest
     metallb.io/ip-allocated-from-pool: sdf-rubin-ingest
-    metallb.io/loadBalancerIPs: 172.24.10.18
+    metallb.io/loadBalancerIPs: 172.24.10.58
 spec:
   allocateLoadBalancerNodePorts: false
   type: LoadBalancer
@@ -17,5 +17,5 @@ spec:
   - name: pgbouncer
     port: 5432
   selector:
-    cnpg.io/cluster: usdf-butler-dp1
+    cnpg.io/cluster: usdf-butler-misc16
     cnpg.io/instanceRole: primary

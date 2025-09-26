@@ -3,8 +3,11 @@ resources:
 - ns.yaml
 # cnpg
 - database.yaml
-- pooler.yaml
-- lb-svc.yaml
+- db-svc.yaml
+- db-svc-to-remove.yaml
+- pooler-ss-rw-svc.yaml
+- pooler-tx-rw-svc.yaml
+- pooler-tx-ro-svc.yaml
 - backup.yaml
 #- object-store.yaml
 
