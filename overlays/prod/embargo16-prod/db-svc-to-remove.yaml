@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.io/address-pool: sdf-services
+    metallb.io/ip-allocated-from-pool: sdf-services
+    metallb.io/loadBalancerIPs: 172.24.5.76
+  name: usdf-butler-embargo16-svc-old
+  namespace: embargo16-prod
+spec:
+  allocateLoadBalancerNodePorts: false
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: pgbouncer
+    port: 5432
+  selector:
+    app: pooler
+    cnpg.io/poolerName: usdf-butler-embargo16-ss-rw
+  type: LoadBalancer
