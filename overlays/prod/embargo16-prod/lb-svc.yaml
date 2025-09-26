@@ -1,21 +1,26 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: usdf-butler-embargo16-svc
-  namespace: embargo16-prod
   annotations:
-    metallb.io/address-pool: sdf-services
+    metallb.io/address-pool: sdf-rubin-ingest
+    metallb.io/ip-allocated-from-pool: sdf-rubin-ingest
+  name: usdf-butler-embargo16-db-svc
+  namespace: embargo16-prod
 spec:
   allocateLoadBalancerNodePorts: false
+  loadBalancerIP: 172.24.10.14
+  clusterIP: 10.107.13.245
+  clusterIPs:
+  - 10.107.13.245
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
   ports:
   - name: pgbouncer
     port: 5432
-    protocol: TCP
-    targetPort: 5432
   selector:
     cnpg.io/cluster: usdf-butler-embargo16
-    role: primary
-  sessionAffinity: None
+    cnpg.io/instanceRole: primary
   type: LoadBalancer
 
 ---
@@ -30,13 +35,13 @@ metadata:
   namespace: embargo16-prod
 spec:
   allocateLoadBalancerNodePorts: false
+  loadBalancerIP: 172.24.10.22
   clusterIP: 10.97.157.69
   clusterIPs:
   - 10.97.157.69
   ipFamilies:
   - IPv4
   ipFamilyPolicy: SingleStack
-  loadBalancerIP: 172.24.10.22
   ports:
   - name: pgbouncer
     nodePort: 31122
@@ -45,3 +50,53 @@ spec:
     app: pooler
     cnpg.io/poolerName: usdf-butler-embargo16-pooler-session-rw
   type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.io/address-pool: sdf-rubin-ingest
+    metallb.io/ip-allocated-from-pool: sdf-rubin-ingest
+  name: usdf-butler-embargo16-pooler-transaction-ro
+  namespace: embargo16-prod
+spec:
+  allocateLoadBalancerNodePorts: false
+  type: LoadBalancer
+  loadBalancerIP: 172.24.10.32
+  clusterIP: 10.105.199.151
+  clusterIPs:
+  - 10.105.199.151
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: pgbouncer
+    port: 5432
+    targetPort: pgbouncer
+  selector:
+    cnpg.io/poolerName: usdf-butler-embargo16-pooler-transaction-ro
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: usdf-butler-embargo16-svc
+  namespace: embargo16-prod
+  annotations:
+    metallb.io/address-pool: sdf-services
+spec:
+  allocateLoadBalancerNodePorts: false
+  type: LoadBalancer
+  loadBalancerIP: 172.24.5.254
+  ports:
+  - name: pgbouncer
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    cnpg.io/cluster: usdf-butler-embargo16
+    role: primary
+  sessionAffinity: None
