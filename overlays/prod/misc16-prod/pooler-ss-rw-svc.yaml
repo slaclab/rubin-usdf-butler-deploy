@@ -1,0 +1,74 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: usdf-butler-misc16-ss-rw
+  namespace: misc16-prod
+spec:
+  cluster:
+    name: usdf-butler-misc16
+  instances: 3
+  pgbouncer:
+    parameters:
+      default_pool_size: "1000"
+      idle_transaction_timeout: "0"
+      log_connections: "1"
+      log_disconnections: "1"
+      max_client_conn: "3000"
+      server_idle_timeout: "60"
+      tcp_keepalive: "1"
+      tcp_keepcnt: "1"
+      tcp_keepidle: "1"
+      tcp_keepintvl: "1"
+      tcp_user_timeout: "5000"
+    paused: false
+    poolMode: session
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+      labels:
+        app: pooler
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - pooler
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: pgbouncer
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1000Mi
+          requests:
+            cpu: "1"
+            memory: 500Mi
+  type: rw
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: usdf-butler-misc16-ss-rw-svc
+  namespace: misc16-prod
+  annotations:
+    metallb.io/address-pool: sdf-rubin-ingest
+    metallb.io/ip-allocated-from-pool: sdf-rubin-ingest
+    metallb.io/loadBalancerIPs: 172.24.10.59
+spec:
+  allocateLoadBalancerNodePorts: false
+  type: LoadBalancer
+  ipFamilies:
+  - IPv4
+  ports:
+  - name: pgbouncer
+    port: 5432
+  selector:
+    app: pooler
+    cnpg.io/poolerName: usdf-butler-misc16-ss-rw

@@ -2,8 +2,9 @@ resources:
 - ns.yaml
 # cnpg
 - database.yaml
-- pooler.yaml
-- lb-svc.yaml
+- db-svc.yaml
+- pooler-tx-rw-svc.yaml
+- pooler-ss-rw-svc.yaml
 - backup.yaml
 
 secretGenerator:
