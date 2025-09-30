@@ -1,9 +1,6 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  annotations:
-    cnpg.io/reloadedAt: "2025-03-30T21:17:37.464851-07:00"
-    kubectl.kubernetes.io/restartedAt: "2025-03-27T09:29:24-07:00"
   name: usdf-butler-dp1
   namespace: dp1
 spec:
@@ -48,11 +45,6 @@ spec:
       name: cnpg-default-monitoring
     disableDefaultQueries: false
     enablePodMonitor: true
-  nodeMaintenanceWindow:
-    inProgress: false
-    reusePVC: true
-  postgresGID: 26
-  postgresUID: 26
   postgresql:
     parameters:
       archive_mode: "on"
@@ -67,7 +59,7 @@ spec:
       log_min_duration_statement: 250ms
       log_rotation_age: "0"
       log_rotation_size: "0"
-      log_statement: on
+      log_statement: none
       log_temp_files: "1"
       log_truncate_on_rotation: "false"
       logging_collector: "on"
@@ -79,7 +71,7 @@ spec:
       max_wal_size: 256GB
       max_worker_processes: "32"
       min_wal_size: 4GB
-      pg_stat_statements.track: none
+      pg_stat_statements.track: all
       random_page_cost: "1.1"
       shared_buffers: 32GB
       shared_memory_type: mmap

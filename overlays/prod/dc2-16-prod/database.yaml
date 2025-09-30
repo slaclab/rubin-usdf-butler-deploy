@@ -41,10 +41,6 @@ spec:
   monitoring:
     enablePodMonitor: true
 
-  nodeMaintenanceWindow:
-    inProgress: false
-    reusePVC: true
-
   postgresql:
     parameters:
         dynamic_shared_memory_type: posix
@@ -67,7 +63,7 @@ spec:
         max_wal_size: 256GB
         max_worker_processes: "32"
         min_wal_size: 4GB
-        pg_stat_statements.track: "none"
+        pg_stat_statements.track: "all"
         random_page_cost: "1.1"
         shared_buffers: 8GB
         wal_keep_size: 512MB
@@ -77,7 +73,6 @@ spec:
         max_slot_wal_keep_size: "100GB"
         wal_compression: "off"
 
-       
   resources:
     requests:
       memory: 48Gi
