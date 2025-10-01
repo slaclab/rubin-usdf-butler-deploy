@@ -1,8 +1,8 @@
 resources:
 - ns.yaml
 # cnpg
-- cnpg-butler-embargo-database.yaml
-- cnpg-butler-embargo-pooler.yaml
+- database.yaml
+- npg-butler-embargo-pooler.yaml
 
 secretGenerator:
 - name: usdf-butler-embargo-creds
