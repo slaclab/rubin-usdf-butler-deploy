@@ -2,7 +2,12 @@ resources:
 - ns.yaml
 # cnpg
 - database.yaml
-- npg-butler-embargo-pooler.yaml
+- db-svc.yaml
+- db-svc-to-remove.yaml
+- pooler-tx-rw-svc.yaml
+- pooler-tx-rw-svc-to-remove.yaml
+- pooler-ss-rw-svc.yaml
+- pooler-ss-rw-svc-to-remove.yaml
 
 secretGenerator:
 - name: usdf-butler-embargo-creds
