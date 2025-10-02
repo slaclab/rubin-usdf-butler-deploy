@@ -1,0 +1,6 @@
+usdf-butler-embargo16-db-svc      LoadBalancer   10.107.13.245    172.24.10.14   5432/TCP         5d5h
+usdf-butler-embargo16-ss-rw-svc   LoadBalancer   10.108.185.65    172.24.10.22   5432/TCP         4d23h
+usdf-butler-embargo16-svc         LoadBalancer   10.109.45.110    172.24.5.254   5432:32707/TCP   399d
+usdf-butler-embargo16-svc-old     LoadBalancer   10.102.214.232   172.24.5.76    5432/TCP         4d23h
+usdf-butler-embargo16-tx-ro-svc   LoadBalancer   10.107.176.229   172.24.10.32   5432/TCP         4d23h
+usdf-butler-embargo16-tx-rw-svc   LoadBalancer   10.98.173.112    172.24.10.17   5432/TCP         4d23h
