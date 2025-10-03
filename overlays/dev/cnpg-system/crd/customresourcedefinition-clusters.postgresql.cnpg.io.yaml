@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.17.3
+    controller-gen.kubebuilder.io/version: v0.18.0
   name: clusters.postgresql.cnpg.io
 spec:
   group: postgresql.cnpg.io
@@ -145,7 +145,6 @@ spec:
                                     pod labels will be ignored. The default value is empty.
                                     The same key is forbidden to exist in both matchLabelKeys and labelSelector.
                                     Also, matchLabelKeys cannot be set when labelSelector isn't set.
-                                    This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
                                   items:
                                     type: string
                                   type: array
@@ -160,7 +159,6 @@ spec:
                                     pod labels will be ignored. The default value is empty.
                                     The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
                                     Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-                                    This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
                                   items:
                                     type: string
                                   type: array
@@ -326,7 +324,6 @@ spec:
                                 pod labels will be ignored. The default value is empty.
                                 The same key is forbidden to exist in both matchLabelKeys and labelSelector.
                                 Also, matchLabelKeys cannot be set when labelSelector isn't set.
-                                This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
                               items:
                                 type: string
                               type: array
@@ -341,7 +338,6 @@ spec:
                                 pod labels will be ignored. The default value is empty.
                                 The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
                                 Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-                                This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
                               items:
                                 type: string
                               type: array
@@ -504,7 +500,6 @@ spec:
                                     pod labels will be ignored. The default value is empty.
                                     The same key is forbidden to exist in both matchLabelKeys and labelSelector.
                                     Also, matchLabelKeys cannot be set when labelSelector isn't set.
-                                    This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
                                   items:
                                     type: string
                                   type: array
@@ -519,7 +514,6 @@ spec:
                                     pod labels will be ignored. The default value is empty.
                                     The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
                                     Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-                                    This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
                                   items:
                                     type: string
                                   type: array
@@ -685,7 +679,6 @@ spec:
                                 pod labels will be ignored. The default value is empty.
                                 The same key is forbidden to exist in both matchLabelKeys and labelSelector.
                                 Also, matchLabelKeys cannot be set when labelSelector isn't set.
-                                This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
                               items:
                                 type: string
                               type: array
@@ -700,7 +693,6 @@ spec:
                                 pod labels will be ignored. The default value is empty.
                                 The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
                                 Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-                                This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
                               items:
                                 type: string
                               type: array
@@ -2251,6 +2243,7 @@ spec:
                   sources to the pods to be used by Env
                 items:
                   description: EnvFromSource represents the source of a set of ConfigMaps
+                    or Secrets
                   properties:
                     configMapRef:
                       description: The ConfigMap to select from
@@ -2270,8 +2263,8 @@ spec:
                       type: object
                       x-kubernetes-map-type: atomic
                     prefix:
-                      description: An optional identifier to prepend to each key in
-                        the ConfigMap. Must be a C_IDENTIFIER.
+                      description: Optional text to prepend to the name of each environment
+                        variable. Must be a C_IDENTIFIER.
                       type: string
                     secretRef:
                       description: The Secret to select from
@@ -3073,9 +3066,6 @@ spec:
                     description: The major version of PostgreSQL we want to use from
                       the ImageCatalog
                     type: integer
-                    x-kubernetes-validations:
-                    - message: Major is immutable
-                      rule: self == oldSelf
                   name:
                     description: Name is the name of resource being referenced
                     type: string
@@ -3640,13 +3630,12 @@ spec:
                                       type: object
                                     trafficDistribution:
                                       description: |-
-                                        TrafficDistribution offers a way to express preferences for how traffic is
-                                        distributed to Service endpoints. Implementations can use this field as a
-                                        hint, but are not required to guarantee strict adherence. If the field is
-                                        not set, the implementation will apply its default routing strategy. If set
-                                        to "PreferClose", implementations should prioritize endpoints that are
-                                        topologically close (e.g., same zone).
-                                        This is a beta field and requires enabling ServiceTrafficDistribution feature.
+                                        TrafficDistribution offers a way to express preferences for how traffic
+                                        is distributed to Service endpoints. Implementations can use this field
+                                        as a hint, but are not required to guarantee strict adherence. If the
+                                        field is not set, the implementation will apply its default routing
+                                        strategy. If set to "PreferClose", implementations should prioritize
+                                        endpoints that are in the same zone.
                                       type: string
                                     type:
                                       description: |-
@@ -4308,6 +4297,13 @@ spec:
                           More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
                         format: int32
                         type: integer
+                      maximumLag:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        description: Lag limit. Used only for `streaming` strategy
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
                       periodSeconds:
                         description: |-
                           How often (in seconds) to perform the probe.
@@ -4341,6 +4337,13 @@ spec:
                           More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
                         format: int32
                         type: integer
+                      type:
+                        description: The probe strategy
+                        enum:
+                        - pg_isready
+                        - streaming
+                        - query
+                        type: string
                     type: object
                   startup:
                     description: The startup probe configuration
@@ -4357,6 +4360,13 @@ spec:
                           More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
                         format: int32
                         type: integer
+                      maximumLag:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        description: Lag limit. Used only for `streaming` strategy
+                        pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                        x-kubernetes-int-or-string: true
                       periodSeconds:
                         description: |-
                           How often (in seconds) to perform the probe.
@@ -4390,6 +4400,13 @@ spec:
                           More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
                         format: int32
                         type: integer
+                      type:
+                        description: The probe strategy
+                        enum:
+                        - pg_isready
+                        - streaming
+                        - query
+                        type: string
                     type: object
                 type: object
               projectedVolumeTemplate:
@@ -5597,7 +5614,6 @@ spec:
                         - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations.
 
                         If this value is nil, the behavior is equivalent to the Honor policy.
-                        This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.
                       type: string
                     nodeTaintsPolicy:
                       description: |-
@@ -5608,7 +5624,6 @@ spec:
                         - Ignore: node taints are ignored. All nodes are included.
 
                         If this value is nil, the behavior is equivalent to the Ignore policy.
-                        This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.
                       type: string
                     topologyKey:
                       description: |-
@@ -5900,10 +5915,6 @@ spec:
                   - hash
                   type: object
                 type: array
-              azurePVCUpdateEnabled:
-                description: AzurePVCUpdateEnabled shows if the PVC online upgrade
-                  is enabled for this cluster
-                type: boolean
               certificates:
                 description: The configuration for the CA and related certificates,
                   initialized with defaults.
@@ -6065,14 +6076,18 @@ spec:
               firstRecoverabilityPoint:
                 description: |-
                   The first recoverability point, stored as a date in RFC3339 format.
-                  This field is calculated from the content of FirstRecoverabilityPointByMethod
+                  This field is calculated from the content of FirstRecoverabilityPointByMethod.
+
+                  Deprecated: the field is not set for backup plugins.
                 type: string
               firstRecoverabilityPointByMethod:
                 additionalProperties:
                   format: date-time
                   type: string
-                description: The first recoverability point, stored as a date in RFC3339
-                  format, per backup method type
+                description: |-
+                  The first recoverability point, stored as a date in RFC3339 format, per backup method type.
+
+                  Deprecated: the field is not set for backup plugins.
                 type: object
               healthyPVC:
                 description: List of all the PVCs not dangling nor initializing
@@ -6102,6 +6117,9 @@ spec:
                   description: InstanceReportedState describes the last reported state
                     of an instance during a reconciliation loop
                   properties:
+                    ip:
+                      description: IP address of the instance
+                      type: string
                     isPrimary:
                       description: indicates if an instance is the primary one
                       type: boolean
@@ -6127,7 +6145,10 @@ spec:
                 format: int32
                 type: integer
               lastFailedBackup:
-                description: Stored as a date in RFC3339 format
+                description: |-
+                  Last failed backup, stored as a date in RFC3339 format.
+
+                  Deprecated: the field is not set for backup plugins.
                 type: string
               lastPromotionToken:
                 description: |-
@@ -6136,15 +6157,19 @@ spec:
                 type: string
               lastSuccessfulBackup:
                 description: |-
-                  Last successful backup, stored as a date in RFC3339 format
-                  This field is calculated from the content of LastSuccessfulBackupByMethod
+                  Last successful backup, stored as a date in RFC3339 format.
+                  This field is calculated from the content of LastSuccessfulBackupByMethod.
+
+                  Deprecated: the field is not set for backup plugins.
                 type: string
               lastSuccessfulBackupByMethod:
                 additionalProperties:
                   format: date-time
                   type: string
-                description: Last successful backup, stored as a date in RFC3339 format,
-                  per backup method type
+                description: |-
+                  Last successful backup, stored as a date in RFC3339 format, per backup method type.
+
+                  Deprecated: the field is not set for backup plugins.
                 type: object
               latestGeneratedNode:
                 description: ID of the latest generated node (used to avoid node name
@@ -6192,6 +6217,20 @@ spec:
                 description: OnlineUpdateEnabled shows if the online upgrade is enabled
                   inside the cluster
                 type: boolean
+              pgDataImageInfo:
+                description: PGDataImageInfo contains the details of the latest image
+                  that has run on the current data directory.
+                properties:
+                  image:
+                    description: Image is the image name
+                    type: string
+                  majorVersion:
+                    description: MajorVersion is the major version of the image
+                    type: integer
+                required:
+                - image
+                - majorVersion
+                type: object
               phase:
                 description: Current phase of the cluster
                 type: string
@@ -6347,6 +6386,9 @@ spec:
                       of switching a cluster to a replica cluster.
                     type: boolean
                 type: object
+              systemID:
+                description: SystemID is the latest detected PostgreSQL SystemID
+                type: string
               tablespacesStatus:
                 description: TablespacesStatus reports the state of the declarative
                   tablespaces in the cluster

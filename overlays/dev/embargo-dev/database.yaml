@@ -4,7 +4,33 @@ metadata:
   name: embargo-db
   namespace: embargo-dev
 spec:
-  instances: 2
+  bootstrap:
+    initdb:
+      database: lsstdb1
+      encoding: UTF8
+      localeCType: C
+      localeCollate: C
+      owner: rubin
+  instances: 3
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://rubin-usdf-butler-embargo16/embargo-dev
+      endpointURL: https://s3dfrgw.slac.stanford.edu
+      s3Credentials:
+        accessKeyId:
+          key: ACCESS_KEY_ID
+          name: s3-creds
+        secretAccessKey:
+          key: ACCESS_SECRET_KEY
+          name: s3-creds
+      wal:
+        maxParallel: 8
+      data:
+        jobs: 8
+        immediateCheckpoint: true
+    retentionPolicy: 15d
+    target: prefer-standby
+
   primaryUpdateStrategy: unsupervised
   enablePDB: true
   imageName: ghcr.io/lsst-sqre/cnpg-postgres-images:17.5
@@ -16,10 +42,12 @@ spec:
   postgresql:
     parameters:
       dynamic_shared_memory_type: posix
+      log_min_messages: "fatal"
+      log_min_error_statement: "panic"
       log_destination: csvlog
       log_directory: /controller/log
       log_filename: postgres
-      log_min_duration_statement: 250ms
+      log_min_duration_statement: 1800000ms
       log_rotation_age: "0"
       log_rotation_size: "0"
       log_temp_files: "1"
@@ -45,17 +73,16 @@ spec:
       checkpoint_timeout: 3600s
   resources:
     requests:
-      memory: 16Gi
-      cpu: 4
+      memory: 64Gi
+      cpu: 8
     limits:
-      memory: 32Gi
+      memory: 64Gi
       cpu: 8
   storage:
     storageClass: wekafs--sdf-k8s01
     size: 1000Gi
-  #plugins:
-  #  - name: barman-cloud.cloudnative-pg.io
-  #    enabled: true
-  #    isWALArchiver: true
-  #    parameters:
-  #      barmanObjectName: embargo-db-s3-store
+  smartShutdownTimeout: 3
+  startDelay: 3600
+  stopDelay: 120
+  switchoverDelay: 120
+  logLevel: warning
