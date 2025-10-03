@@ -115,11 +115,11 @@ spec:
     requests:
       cpu: "16"
       memory: 128Gi
-  smartShutdownTimeout: 180
+  smartShutdownTimeout: 1
   startDelay: 3600
-  stopDelay: 1800
+  stopDelay: 120
   storage:
     resizeInUseVolumes: true
     size: 3000Gi
     storageClass: wekafs--sdf-k8s01
-  switchoverDelay: 3600
+  switchoverDelay: 60
