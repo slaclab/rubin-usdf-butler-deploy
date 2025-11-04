@@ -11,7 +11,7 @@ spec:
       localeCType: C
       localeCollate: C
       owner: rubin
-  instances: 3
+  instances: 2
   backup:
     barmanObjectStore:
       destinationPath: s3://rubin-usdf-butler-embargo16/embargo-dev
@@ -32,6 +32,8 @@ spec:
     target: prefer-standby
 
   primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
+
   enablePDB: true
   imageName: ghcr.io/lsst-sqre/cnpg-postgres-images:17.5
   inheritedMetadata:
@@ -42,7 +44,7 @@ spec:
   postgresql:
     parameters:
       dynamic_shared_memory_type: posix
-      log_min_messages: "fatal"
+      log_min_messages: "WARNING"
       log_min_error_statement: "panic"
       log_destination: csvlog
       log_directory: /controller/log
@@ -62,8 +64,8 @@ spec:
       min_wal_size: 4GB
       pg_stat_statements.track: "top"
       random_page_cost: "1.1"
-      shared_buffers: 8GB
-      wal_keep_size: 8GB
+      shared_buffers: 32GB
+      wal_keep_size: 64GB
       wal_receiver_timeout: 5s
       wal_sender_timeout: 5s
       work_mem: 320MB
@@ -81,8 +83,7 @@ spec:
   storage:
     storageClass: wekafs--sdf-k8s01
     size: 1000Gi
-  smartShutdownTimeout: 3
+  smartShutdownTimeout: 1
   startDelay: 3600
-  stopDelay: 120
-  switchoverDelay: 120
-  logLevel: warning
+  stopDelay: 60
+  switchoverDelay: 59

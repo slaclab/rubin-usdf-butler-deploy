@@ -18,4 +18,11 @@ run-kustomize:
 
 dump: get-secrets-from-vault run-kustomize clean-secrets
 
+
 apply: get-secrets-from-vault run-apply clean-secrets
+
+vault kv put secret/rubin/usdf-butler-misc/misc-prod/misc-db/s3 \
+client-id=ZST8BCAMHXTT5SMHQPQA \
+client-secret=5eFBgjyHRfFiMq3ICgI2rnAuslKlTjmQtfl5NEuL \
+   secret-key=5eFBgjyHRfFiMq3ICgI2rnAuslKlTjmQtfl5NEuL \
+url=https://s3dfrgw.slac.stanford.edu/rubin-usdf-butler-misc16

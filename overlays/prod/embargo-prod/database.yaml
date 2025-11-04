@@ -4,6 +4,13 @@ metadata:
   name: embargo-db
   namespace: embargo-prod
 spec:
+  bootstrap:
+    initdb:
+      database: lsstdb1
+      encoding: UTF8
+      localeCType: C
+      localeCollate: C
+      owner: rubin
   backup:
     barmanObjectStore:
       destinationPath: s3://rubin-usdf-butler-embargo16
@@ -59,6 +66,7 @@ spec:
       log_rotation_size: "0"
       log_temp_files: "1"
       log_truncate_on_rotation: "false"
+      log_min_error_statement: "fatal"
       logging_collector: "on"
       maintenance_work_mem: 12GB
       max_connections: "2000"
