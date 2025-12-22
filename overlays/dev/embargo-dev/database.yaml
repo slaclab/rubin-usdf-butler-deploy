@@ -11,7 +11,7 @@ spec:
       localeCType: C
       localeCollate: C
       owner: rubin
-  instances: 3
+  instances: 2
   backup:
     barmanObjectStore:
       destinationPath: s3://rubin-usdf-butler-embargo16/embargo-dev
