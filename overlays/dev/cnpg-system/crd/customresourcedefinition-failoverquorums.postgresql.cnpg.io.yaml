@@ -3,14 +3,14 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.19.0
-  name: imagecatalogs.postgresql.cnpg.io
+  name: failoverquorums.postgresql.cnpg.io
 spec:
   group: postgresql.cnpg.io
   names:
-    kind: ImageCatalog
-    listKind: ImageCatalogList
-    plural: imagecatalogs
-    singular: imagecatalog
+    kind: FailoverQuorum
+    listKind: FailoverQuorumList
+    plural: failoverquorums
+    singular: failoverquorum
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -20,7 +20,11 @@ spec:
     name: v1
     schema:
       openAPIV3Schema:
-        description: ImageCatalog is the Schema for the imagecatalogs API
+        description: |-
+          FailoverQuorum contains the information about the current failover
+          quorum status of a PG cluster. It is updated by the instance manager
+          of the primary node and reset to zero by the operator to trigger
+          an update.
         properties:
           apiVersion:
             description: |-
@@ -39,41 +43,34 @@ spec:
             type: string
           metadata:
             type: object
-          spec:
-            description: |-
-              Specification of the desired behavior of the ImageCatalog.
-              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+          status:
+            description: Most recently observed status of the failover quorum.
             properties:
-              images:
-                description: List of CatalogImages available in the catalog
+              method:
+                description: Contains the latest reported Method value.
+                type: string
+              primary:
+                description: |-
+                  Primary is the name of the primary instance that updated
+                  this object the latest time.
+                type: string
+              standbyNames:
+                description: |-
+                  StandbyNames is the list of potentially synchronous
+                  instance names.
                 items:
-                  description: CatalogImage defines the image and major version
-                  properties:
-                    image:
-                      description: The image reference
-                      type: string
-                    major:
-                      description: The PostgreSQL major version of the image. Must
-                        be unique within the catalog.
-                      minimum: 10
-                      type: integer
-                  required:
-                  - image
-                  - major
-                  type: object
-                maxItems: 8
-                minItems: 1
+                  type: string
                 type: array
-                x-kubernetes-validations:
-                - message: Images must have unique major versions
-                  rule: self.all(e, self.filter(f, f.major==e.major).size() == 1)
-            required:
-            - images
+              standbyNumber:
+                description: |-
+                  StandbyNumber is the number of synchronous standbys that transactions
+                  need to wait for replies from.
+                type: integer
             type: object
         required:
         - metadata
-        - spec
         type: object
     served: true
     storage: true
-    subresources: {}
+    subresources:
+      status: {}
