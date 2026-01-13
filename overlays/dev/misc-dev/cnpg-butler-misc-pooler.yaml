@@ -14,6 +14,7 @@ spec:
         metallb.universe.tf/address-pool: sdf-services
     spec:
       type: LoadBalancer
+      allocateLoadBalancerNodePorts: false
   pgbouncer:
     poolMode: transaction
     parameters:
@@ -70,6 +71,7 @@ spec:
         metallb.universe.tf/address-pool: sdf-services
     spec:
       type: LoadBalancer
+      allocateLoadBalancerNodePorts: false
   pgbouncer:
     poolMode: session
     parameters:
