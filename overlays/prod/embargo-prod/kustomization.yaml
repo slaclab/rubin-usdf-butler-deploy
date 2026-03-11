@@ -1,15 +1,14 @@
-
 resources:
 - ns.yaml
 # cnpg
-#- database.yaml
-#- db-svc.yaml
-#- db-svc-to-remove.yaml
-#- pooler-ss-rw-svc.yaml
-#- pooler-tx-rw-svc.yaml
-#- pooler-tx-ro-svc.yaml
-#- backup.yaml
-#- object-store.yaml
+- database.yaml
+- db-svc.yaml
+- db-svc-to-remove.yaml
+- pooler-ss-rw-svc.yaml
+- pooler-tx-rw-svc.yaml
+- pooler-tx-ro-svc.yaml
+- backup.yaml
+- object-store.yaml
 
 secretGenerator:
 - name: usdf-butler-embargo16-creds
@@ -26,11 +25,11 @@ secretGenerator:
   - ACCESS_KEY_ID=etc/.secrets/client-id
   - ACCESS_SECRET_KEY=etc/.secrets/client-secret
 
-    #- name: usdf-butler-embargo16-monitor
-    #  options:
-    #    disableNameSuffixHash: true
-    #  files:
-    #  - etc/.secrets/monitor-user
-    #  - etc/.secrets/monitor-password
+- name: usdf-butler-embargo16-monitor
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/monitor-user
+  - etc/.secrets/monitor-password
 
 namespace: embargo-prod

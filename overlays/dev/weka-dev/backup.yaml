@@ -1,11 +1,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: usdf-butler-embargo16-backup
-  namespace: embargo16-prod
+  name: usdf-butler-embargo-dev-db-backup
+  namespace: embargo-dev
 spec:
   immediate: true
   schedule: "0 0 16 * * *"
   backupOwnerReference: self
   cluster:
-    name: usdf-butler-embargo16
+    name: embargo-db

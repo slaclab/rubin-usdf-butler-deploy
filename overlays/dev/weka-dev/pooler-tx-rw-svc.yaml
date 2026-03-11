@@ -1,11 +1,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
-  name: usdf-butler-embargo16-tx-ro
-  namespace: embargo16-prod
+  name: embargo-db-tx-rw
+  namespace: embargo-dev
 spec:
   cluster:
-    name: usdf-butler-embargo16
+    name: embargo-db
   instances: 3
   pgbouncer:
     parameters:
@@ -48,19 +48,19 @@ spec:
           requests:
             cpu: "1"
             memory: 500Mi
-  type: ro
+  type: rw
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: usdf-butler-embargo16-tx-ro-svc
-  namespace: embargo16-prod
+  name: embargo-db-tx-rw-svc
+  namespace: embargo-dev
   annotations:
     metallb.io/address-pool: sdf-rubin-ingest
     metallb.io/ip-allocated-from-pool: sdf-rubin-ingest
-    metallb.io/loadBalancerIPs: 172.24.10.32
+    #metallb.io/loadBalancerIPs: 172.24.10.22
 spec:
   allocateLoadBalancerNodePorts: false
   type: LoadBalancer
@@ -71,4 +71,4 @@ spec:
     port: 5432
   selector:
     app: pooler
-    cnpg.io/poolerName: usdf-butler-embargo16-tx-ro
+    cnpg.io/poolerName: embargo-db-tx-rw

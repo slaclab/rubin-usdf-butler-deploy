@@ -1,11 +1,15 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
-  name: usdf-butler-embargo16-ss-rw
-  namespace: embargo16-prod
+  labels:
+    app: butler-embargo
+    env: embargo-dev
+    namespace: embargo-dev
+  name: usdf-butler-embargo-pooler-session-rw
+  namespace: embargo-dev
 spec:
   cluster:
-    name: usdf-butler-embargo16
+    name: usdf-butler-embargo
   instances: 3
   pgbouncer:
     parameters:
@@ -13,15 +17,21 @@ spec:
       idle_transaction_timeout: "0"
       log_connections: "1"
       log_disconnections: "1"
-      max_client_conn: "3000"
-      server_idle_timeout: "60"
+      max_client_conn: "2000"
+      server_idle_timeout: "0"
       tcp_keepalive: "1"
       tcp_keepcnt: "1"
       tcp_keepidle: "1"
       tcp_keepintvl: "1"
-      tcp_user_timeout: "5000"
+      tcp_user_timeout: "1000"
     paused: false
     poolMode: session
+  serviceTemplate:
+    metadata:
+      annotations:
+        metallb.universe.tf/address-pool: sdf-services
+    spec:
+      type: LoadBalancer
   template:
     metadata:
       annotations:
@@ -44,31 +54,8 @@ spec:
         resources:
           limits:
             cpu: "1"
-            memory: 1000Mi
+            memory: 500Mi
           requests:
             cpu: "1"
-            memory: 500Mi
+            memory: 100Mi
   type: rw
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: usdf-butler-embargo16-ss-rw-svc
-  namespace: embargo16-prod
-  annotations:
-    metallb.io/address-pool: sdf-rubin-ingest
-    metallb.io/ip-allocated-from-pool: sdf-rubin-ingest
-    metallb.io/loadBalancerIPs: 172.24.10.22
-spec:
-  allocateLoadBalancerNodePorts: false
-  type: LoadBalancer
-  ipFamilies:
-  - IPv4
-  ports:
-  - name: pgbouncer
-    port: 5432
-  selector:
-    app: pooler
-    cnpg.io/poolerName: usdf-butler-embargo16-ss-rw
