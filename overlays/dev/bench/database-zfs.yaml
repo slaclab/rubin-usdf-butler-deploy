@@ -1,0 +1,72 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: zfs-db
+  namespace: bench
+spec:
+  bootstrap:
+    initdb:
+      database: benchdb
+      encoding: UTF8
+      localeCType: C
+      localeCollate: C
+  instances: 1
+
+  primaryUpdateStrategy: unsupervised
+  enablePDB: true
+  imageName: ghcr.io/lsst-sqre/cnpg-postgres-images:18.1
+  inheritedMetadata:
+    annotations:
+      prometheus.io/scrape: 'true'
+  monitoring:
+    enablePodMonitor: true
+  postgresql:
+    parameters:
+      dynamic_shared_memory_type: posix
+      log_min_messages: "fatal"
+      log_min_error_statement: "panic"
+      log_destination: csvlog
+      log_directory: /controller/log
+      log_filename: postgres
+      log_min_duration_statement: 1800000ms
+      log_rotation_age: "0"
+      log_rotation_size: "0"
+      log_temp_files: "1"
+      log_truncate_on_rotation: "false"
+      logging_collector: "on"
+      maintenance_work_mem: 1GB
+      max_connections: "2000"
+      max_parallel_workers: "32"
+      max_replication_slots: "32"
+      max_wal_size: 256GB
+      max_worker_processes: "32"
+      min_wal_size: 4GB
+      pg_stat_statements.track: "top"
+      random_page_cost: "1.1"
+      shared_buffers: 16GB
+      wal_keep_size: 8GB
+      wal_receiver_timeout: 5s
+      wal_sender_timeout: 5s
+      work_mem: 320MB
+      max_slot_wal_keep_size: "100GB"
+      wal_compression: "off"
+      jit: "on"
+      checkpoint_timeout: 3600s
+  resources:
+    requests:
+      memory: 32Gi
+      cpu: 4
+    limits:
+      memory: 32Gi
+      cpu: 4
+  affinity:
+    nodeSelector:
+      kubernetes.io/hostname: sdfk8sn077
+  storage:
+    storageClass: local-zfs
+    size: 1000Gi
+  smartShutdownTimeout: 3
+  startDelay: 3600
+  stopDelay: 120
+  switchoverDelay: 120
+  logLevel: warning
