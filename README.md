@@ -1,3 +1,4 @@
+## This repo has been decommissed, please refer to https://github.com/slaclab/rubin-pg-deploy/tree/main/usdf-butler 
 
 This repo holds the Rubin USDF Butler Postgres infrastructure kubernetes manifests.
 
