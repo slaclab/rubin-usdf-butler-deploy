@@ -62,8 +62,15 @@ spec:
   affinity:
     nodeSelector:
       kubernetes.io/hostname: sdfk8sn077
+    tolerations:
+      - key: "edu.stanford.slac.sdf.project/usdf-embargo"
+        value: "true"
+        effect: "NoSchedule"
+      - key: "benchmark"
+        operator: "Exists"
+        effect: "NoSchedule"
   storage:
-    storageClass: local-zfs
+    storageClass: zfs-benchmark
     size: 1000Gi
   smartShutdownTimeout: 3
   startDelay: 3600

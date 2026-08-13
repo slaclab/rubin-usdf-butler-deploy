@@ -62,6 +62,13 @@ spec:
   affinity:
     nodeSelector:
       kubernetes.io/hostname: sdfk8sn076
+    tolerations:
+      - key: "edu.stanford.slac.sdf.project/usdf-embargo"
+        value: "true"
+        effect: "NoSchedule"
+      - key: "benchmark"
+        operator: "Exists"
+        effect: "NoSchedule"
   storage:
     storageClass: wekafs--sdf-k8s01
     size: 1000Gi

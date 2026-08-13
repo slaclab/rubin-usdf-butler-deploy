@@ -31,8 +31,6 @@ spec:
     retentionPolicy: 15d
     target: prefer-standby
 
-  primaryUpdateStrategy: unsupervised
-  primaryUpdateMethod: switchover
 
   enablePDB: true
   imageName: ghcr.io/lsst-sqre/cnpg-postgres-images:17.5
@@ -75,15 +73,18 @@ spec:
       checkpoint_timeout: 3600s
   resources:
     requests:
-      memory: 64Gi
-      cpu: 8
+      memory: 96Gi
+      cpu: 12
     limits:
-      memory: 64Gi
-      cpu: 8
+      memory: 96Gi
+      cpu: 12
   storage:
     storageClass: wekafs--sdf-k8s01
     size: 1000Gi
-  smartShutdownTimeout: 1
   startDelay: 3600
-  stopDelay: 60
-  switchoverDelay: 59
+  smartShutdownTimeout: 1
+  stopDelay: 120
+  switchoverDelay: 119
+  failoverDelay: 0
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
