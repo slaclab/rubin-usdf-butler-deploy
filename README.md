@@ -1,4 +1,4 @@
-
+# please don't commit here, the repo has been migrated to: https://github.com/slaclab/rubin-pg-deploy/tree/main/usdf-pg-catalogs/dp03
 This repo holds the Rubin USDF Butler Postgres infrastructure kubernetes manifests.
 
 We use the [cloudnative-pg operator](https://cloudnative-pg.io/) in order to support a managed postgres service on our own infrastructure.
